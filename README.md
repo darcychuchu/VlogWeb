@@ -12,10 +12,10 @@
 
 <div align="center">
   <h3>Web版首页</h3>
-  <img src="./screenshot/web_home_18log.com.jpeg" alt="Web版首页" width="800">
+  <img src="./screenshot/jpeg-optimizer_web_home_18log.com.jpeg" alt="Web版首页" width="800">
 
   <h3>移动版首页</h3>
-  <img src="./screenshot/mobile_home_18log.com.jpeg" alt="移动版首页" width="400">
+  <img src="./screenshot/jpeg-optimizer_mobile_home_18log.com.jpeg" alt="移动版首页" width="400">
 </div>
 
 ## 项目协作
