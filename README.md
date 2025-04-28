@@ -8,6 +8,8 @@
 
 这是一个基于Spring Boot的视频网站Web前端项目，采用前后端分离架构，但保留服务器端渲染的SEO优势。项目使用Kotlin语言开发，通过API代理模式与后端服务交互，并使用Thymeleaf模板引擎渲染页面。
 
+本项目是 [VlogApp](https://github.com/darcychuchu/VlogApp) 的配套Web应用，两者共享相同的API接口和数据源，提供一致的用户体验。
+
 ## 项目截图
 
 <div align="center">
@@ -208,6 +210,32 @@ cd VlogWeb
 3. 提交更改 (`git commit -m 'Add some amazing feature'`)
 4. 推送到分支 (`git push origin feature/amazing-feature`)
 5. 创建Pull Request
+
+## 相关项目
+
+### VlogApp - Android 移动应用
+
+[VlogApp](https://github.com/darcychuchu/VlogApp) 是本项目的配套移动应用，基于Jetpack Compose开发，提供原生Android体验。
+
+#### 技术对比
+
+| 特性 | VlogWeb (网页) | VlogApp (Android) |
+|------|--------------|-----------------|
+| 前端框架 | Thymeleaf + JavaScript | Jetpack Compose |
+| 缓存策略 | Redis + 内存缓存 | Room + OkHttp缓存 |
+| 响应式设计 | Tailwind CSS | 原生组件 |
+| 渲染方式 | 服务器端渲染 | 客户端渲染 |
+
+#### 共享特性
+
+- **统一API**：两个项目使用相同的API接口和数据源
+- **一致体验**：保持设计语言和用户体验的一致性
+- **账户互通**：用户可在Web和App之间无缝切换，保持登录状态和个人数据
+
+### 开发团队
+
+- **[Augment AI](https://www.augmentcode.com/)**: 负责代码开发与实现
+- **[darcychuchu](https://github.com/darcychuchu)**: 负责测试与问题反馈
 
 ## 许可证
 
