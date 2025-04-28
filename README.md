@@ -88,28 +88,34 @@ src/main/
 
 - JDK 17+
 - Gradle 8.0+
-- Redis 6.0+ (可选，支持无Redis模式)
 
 ### 配置
 
 在 `application.yml` 中配置：
 
 ```yaml
-api:
-  base-url: http://your-api-server/api/json/v1  # 修改为您的API服务器地址
+server:
+  port: 8091  # 应用服务器端口
+  servlet:
+    context-path: /  # 应用上下文路径
 
 spring:
-  redis:
-    host: localhost  # 修改为您的Redis服务器地址
-    port: 6379
+  thymeleaf:
+    cache: false  # 开发环境禁用缓存
+    mode: HTML
+    encoding: UTF-8
+
+api:
+  base-url: https://66log.com/api/json/v1  # API服务器地址
+  image-url: http://127.0.0.1:8082  # 图片服务器地址（如需要）
 ```
 
 ### 构建和运行
 
 ```bash
 # 克隆项目
-git clone https://github.com/yourusername/video-web.git
-cd video-web
+git clone https://github.com/darcychuchu/VlogWeb.git
+cd VlogWeb
 
 # 构建项目
 ./gradlew build
@@ -118,11 +124,11 @@ cd video-web
 ./gradlew bootRun
 ```
 
-或者使用IDE（如IntelliJ IDEA）直接运行 `VideoWebApplication.kt`。
+或者使用IDE（如IntelliJ IDEA）直接运行 `org.vlog.web.VlogWebApplication.kt`。
 
 ### 访问
 
-应用启动后，访问 http://localhost:8090
+应用启动后，访问 http://localhost:8091
 
 ## 功能说明
 
@@ -138,11 +144,11 @@ cd video-web
 - **登录**：用户登录并保存会话
 - **个人资料**：查看和更新个人资料，包括昵称和头像（昵称只能修改一次）
 
-### 缓存机制
+### 性能优化
 
-- **Redis缓存**：缓存API响应，提高性能
-- **故障转移**：Redis不可用时自动切换到内存缓存
-- **缓存策略**：可配置缓存过期时间和条件
+- **直接API调用**：直接调用API服务，无缓存中间层，避免服务器负载问题
+- **异步处理**：使用Spring的异步处理能力处理请求
+- **资源压缩**：启用了图片资源的压缩传输
 
 ## API文档
 
@@ -171,7 +177,11 @@ cd video-web
 
 ### 故障排除
 
-如果遇到Redis连接问题，请参考[Redis故障处理方案](docs/REDIS-FALLBACK.md)。
+如果遇到API连接问题，请检查以下几点：
+
+1. 确认API服务器地址配置正确
+2. 检查网络连接是否正常
+3. 查看应用日志中是否有详细错误信息
 
 ## 贡献
 
