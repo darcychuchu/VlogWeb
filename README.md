@@ -8,6 +8,16 @@
 
 这是一个基于Spring Boot的视频网站Web前端项目，采用前后端分离架构，但保留服务器端渲染的SEO优势。项目使用Kotlin语言开发，通过API代理模式与后端服务交互，并使用Thymeleaf模板引擎渲染页面。
 
+## 项目截图
+
+<div align="center">
+  <h3>Web版首页</h3>
+  <img src="screenshot/web_home_18log.com.jpeg" alt="Web版首页" width="800">
+
+  <h3>移动版首页</h3>
+  <img src="screenshot/mobile_home_18log.com.jpeg" alt="移动版首页" width="400">
+</div>
+
 ## 项目协作
 
 本项目是由Augment AI与darcychuchu共同协作完成的开源项目。Augment AI负责所有代码的开发与实现，darcychuchu负责测试与问题反馈。项目代码已托管在GitHub上，由Augment AI持续维护。如发现任何问题，请通过GitHub Issues提交，我们将及时处理。
