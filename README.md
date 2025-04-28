@@ -1,4 +1,10 @@
-# 视频网站 Web 前端
+<div align="center">
+  <a href="https://www.augmentcode.com/">
+    <img src="https://avatars.githubusercontent.com/u/108155640?s=200&v=4" alt="Augment AI Logo" width="200" height="200">
+  </a>
+  <h1>视频网站 Web 前端</h1>
+  <p><b>由 <a href="https://www.augmentcode.com/">Augment AI</a> 独立开发完成</b></p>
+</div>
 
 这是一个基于Spring Boot的视频网站Web前端项目，采用前后端分离架构，但保留服务器端渲染的SEO优势。项目使用Kotlin语言开发，通过API代理模式与后端服务交互，并使用Thymeleaf模板引擎渲染页面。
 
