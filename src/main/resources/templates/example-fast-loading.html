@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速加载示例</title>
+    
+    <!-- 内联关键CSS，确保页面基本样式立即可用 -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 0.5rem;
+            width: calc(33.333% - 1rem);
+            box-sizing: border-box;
+        }
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 1rem);
+            }
+        }
+        @media (max-width: 480px) {
+            .card {
+                width: 100%;
+            }
+        }
+        .footer {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+        /* 骨架屏样式 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            height: 1em;
+            margin-bottom: 0.5em;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>快速加载示例</h1>
+            <p>这个页面会先显示内容，然后再加载外部资源</p>
+        </header>
+        
+        <main class="content">
+            <!-- 内容会立即显示，不等待外部资源 -->
+            <div class="card">
+                <h2>卡片 1</h2>
+                <p>这是一些示例内容，会立即显示。</p>
+                <div class="skeleton" style="width: 80%;"></div>
+                <div class="skeleton" style="width: 60%;"></div>
+            </div>
+            
+            <div class="card">
+                <h2>卡片 2</h2>
+                <p>这是一些示例内容，会立即显示。</p>
+                <div class="skeleton" style="width: 70%;"></div>
+                <div class="skeleton" style="width: 90%;"></div>
+            </div>
+            
+            <div class="card">
+                <h2>卡片 3</h2>
+                <p>这是一些示例内容，会立即显示。</p>
+                <div class="skeleton" style="width: 85%;"></div>
+                <div class="skeleton" style="width: 75%;"></div>
+            </div>
+            
+            <div class="card">
+                <h2>卡片 4</h2>
+                <p>这是一些示例内容，会立即显示。</p>
+                <div class="skeleton" style="width: 65%;"></div>
+                <div class="skeleton" style="width: 80%;"></div>
+            </div>
+            
+            <div class="card">
+                <h2>卡片 5</h2>
+                <p>这是一些示例内容，会立即显示。</p>
+                <div class="skeleton" style="width: 75%;"></div>
+                <div class="skeleton" style="width: 70%;"></div>
+            </div>
+            
+            <div class="card">
+                <h2>卡片 6</h2>
+                <p>这是一些示例内容，会立即显示。</p>
+                <div class="skeleton" style="width: 90%;"></div>
+                <div class="skeleton" style="width: 60%;"></div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>页面底部 &copy; 2023</p>
+        </footer>
+    </div>
+    
+    <!-- 在页面底部直接引入CDN资源，不阻塞页面渲染 -->
+    <script src="https://cdn.tailwindcss.com/3.3.3" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 或者使用我们的直接加载器 -->
+    <script src="/static/js/direct-loader.js" defer></script>
+    
+    <!-- 页面特定的JavaScript -->
+    <script>
+        // 页面加载完成后执行
+        window.addEventListener('load', function() {
+            console.log('页面已完全加载');
+            
+            // 移除骨架屏
+            setTimeout(() => {
+                document.querySelectorAll('.skeleton').forEach(el => {
+                    el.style.animation = 'none';
+                    el.style.background = 'none';
+                    el.textContent = '资源已加载完成';
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

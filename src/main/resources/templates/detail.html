@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head th:replace="~{layout :: head(~{::title}, ${VideoItem.description}, ${VideoItem.tags})}">
+    <title th:text="${VideoItem.title + ' - 视频网站'}">视频详情 - 视频网站</title>
+</head>
+<body class="bg-black text-white">
+<th:block th:replace="~{layout :: layout(~{::div.content})}">
+    <div class="content">
+        <!-- 电影封面背景 -->
+        <div class="relative mb-8">
+            <div class="absolute inset-0">
+                <img th:src="${VideoItem.coverUrl}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${VideoItem.title}">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 pt-32 pb-16">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- 电影海报 -->
+                    <div class="w-64 flex-shrink-0">
+                        <img class="w-full rounded-lg shadow-lg" th:src="${VideoItem.coverUrl}" referrerpolicy="origin" th:alt="${VideoItem.title}">
+                    </div>
+                    <!-- 电影信息 -->
+                    <div class="flex-1">
+                        <h1 class="text-4xl font-bold mb-2" th:text="${VideoItem.title}">视频标题</h1>
+                        <p class="text-gray-400 mb-4" th:text="${VideoItem.alias}">别名</p>
+
+                        <div class="flex items-center mb-4">
+                            <span class="text-yellow-400 text-2xl" th:text="'★ ' + ${VideoItem.score}">★ 9.2</span>
+                        </div>
+
+                        <div class="space-y-2 text-gray-300 mb-6">
+                            <p th:text="'导演: ' + ${VideoItem.director}">导演: 未知</p>
+                            <p id="actors-container">
+                                <b>演员: </b>
+                                <span id="actors-list" th:text="${VideoItem.actors}">演员列表</span>
+                            </p>
+                            <p id="genres-container">
+                                <b>类型: </b>
+                                <span id="genres-list">
+                                        <a th:each="genre : ${Genres}" th:href="@{/list(tag=${genre.id})}" class="text-blue-400 hover:underline" th:text="${genre.title}">类型</a>
+                                    </span>
+                            </p>
+                            <p th:if="${VideoItem.region}" th:text="'地区: ' + ${VideoItem.region}">地区: 未知</p>
+                            <p th:if="${VideoItem.language}" th:text="'语言: ' + ${VideoItem.language}">语言: 未知</p>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <a href="#video-player">
+                                <button class="bg-yellow-500 text-black px-8 py-3 rounded-lg font-semibold hover:bg-yellow-400">立即观看</button>
+                            </a>
+                            <button id="favorite-btn" class="bg-gray-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600">
+                                收藏
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 视频播放器和选集 -->
+        <div id="video-player" class="bg-gray-800 rounded-lg p-6 mb-8">
+            <div class="max-w-screen-xl mx-auto aspect-video mb-4 bg-gray-900">
+                <video id="video" controls class="w-full h-full" th:poster="${VideoItem.coverUrl}" ></video>
+            </div>
+
+            <!-- 选项卡导航 -->
+            <div id="gather-tabs" class="flex overflow-x-auto border-b border-gray-700 mb-4">
+                <!-- 动态生成选项卡 -->
+                <button th:each="player, stat : ${VideoItem.getVideoPlayList()}"
+                        th:data-gather-id="${player.gatherId}"
+                        th:data-index="${stat.index}"
+                        class="tab-button px-4 py-2 font-medium whitespace-nowrap border-b-2 focus:outline-none transition-colors"
+                        th:classappend="${stat.index == 0 ? 'border-yellow-400 text-yellow-400' : 'border-transparent text-gray-400 hover:text-gray-300'}">
+                    <span th:text="${player.gatherTitle}">选项卡</span>
+                    <i class="text-xs text-yellow-300" th:text="'-' + ${player.playList.size()}">-10</i>
+                </button>
+            </div>
+
+            <!-- 选集列表 -->
+            <div class="mb-4 overflow-x-auto">
+                <div id="inline-episodes-container" class="flex space-x-2 py-2 px-1">
+                    <!-- 动态加载选集 -->
+                </div>
+            </div>
+
+            <!-- 选集按钮 -->
+            <div class="text-center mb-4">
+                <button id="show-episodes-btn" class="bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-600">
+                    <span>查看全部选集</span>
+                </button>
+            </div>
+
+            <!-- 当前选集信息 -->
+            <div id="current-episode-info" class="text-center mb-4 text-gray-300">
+                <span>当前播放: </span><span id="current-episode-title">未选择</span>
+            </div>
+
+            <!-- 选集列表对话框 -->
+            <div id="episodes-dialog" class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center hidden">
+                <div class="bg-gray-800 rounded-lg p-6 max-w-4xl w-full flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">选集列表</h3>
+                        <button id="close-dialog-btn" class="text-gray-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- 对话框内的选项卡导航 -->
+                    <div id="dialog-gather-tabs" class="flex overflow-x-auto border-b border-gray-700 mb-4">
+                        <!-- 动态生成选项卡 -->
+                        <button th:each="player, stat : ${VideoItem.getVideoPlayList()}"
+                                th:data-gather-id="${player.gatherId}"
+                                th:data-index="${stat.index}"
+                                class="tab-button px-4 py-2 font-medium whitespace-nowrap border-b-2 focus:outline-none transition-colors"
+                                th:classappend="${stat.index == 0 ? 'border-yellow-400 text-yellow-400' : 'border-transparent text-gray-400 hover:text-gray-300'}">
+                            <span th:text="${player.gatherTitle}">选项卡</span>
+                            <i class="text-xs text-yellow-300" th:text="'-' + ${player.playList.size()}">-10</i>
+                        </button>
+                    </div>
+
+                    <!-- 对话框内的选集列表 -->
+                    <div class="overflow-y-auto flex-grow" id="episodes-scroll-container">
+                        <div id="gather-container" class="grid grid-cols-5 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-4 p-2 text-xs sm:text-sm">
+                            <!-- 动态加载 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 视频详情 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">剧情简介</h2>
+            <p class="text-gray-300 leading-relaxed" th:text="${VideoItem.description}">视频描述...</p>
+        </section>
+
+        <!-- 评论区 -->
+        <section id="comments-section" class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">评论</h2>
+            </div>
+
+            <div id="comment-container" class="space-y-6">
+                <!-- 初始只显示前5条评论 -->
+                <div th:each="comment, commentStat : ${Comments}"
+                     th:class="${commentStat.index < 5 ? 'comment-item bg-gray-800 rounded-lg p-6' : 'comment-item bg-gray-800 rounded-lg p-6 hidden'}">
+                    <div class="flex items-center mb-4">
+                        <img class="w-10 h-10 rounded-full" alt="user avatar" src="/images/avatar.svg" loading="lazy">
+                        <div class="ml-4">
+                            <h4 class="font-medium" th:text="${comment.createdBy}">用户名</h4>
+                            <div class="flex items-center mt-1">
+                                <span class="text-gray-400 text-sm ml-2" th:text="${#dates.format(new java.util.Date(comment.createdAt), 'yyyy-MM-dd HH:mm:ss')}">评论时间</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300" th:text="${comment.description}">评论内容</p>
+                    <div th:if="${comment.attachmentId}">
+                        <img th:src="@{'/api-proxy/file/attachment/m/' + ${comment.attachmentId}}" th:alt="${comment.description}">
+                    </div>
+                </div>
+                <div th:if="${Comments == null || Comments.size() <= 0}" class="text-center py-8">
+                    <p class="text-gray-400">暂无评论</p>
+                </div>
+            </div>
+
+            <div id="load-more-comments" class="text-center mt-4" th:if="${Comments != null && Comments.size() > 5}">
+                <button id="load-more-comments-btn" class="bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-600">
+                    <span>查看更多评论...</span>
+                </button>
+            </div>
+
+            <div class="text-center mt-8">
+                <div class="flex items-center justify-center">
+                    <button id="show-comment-form" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                        <span>发表评论</span>
+                    </button>
+
+                    <form id="comment-form" method="post" class="w-full max-w-xl rounded-lg px-4 pt-4 hidden">
+                        <div class="flex flex-wrap -mx-3 mb-6">
+                            <div class="w-full md:w-full px-3 mb-2 mt-2">
+                                <label class="block mb-2 text-sm text-gray-600">
+                                        <textarea class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+                                                  name="description" placeholder='请输入您的评论'
+                                                  required></textarea>
+                                </label>
+                            </div>
+                            <div class="w-full flex justify-end px-3">
+                                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                                    <span>提交评论</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 相似推荐 -->
+        <section id="more-liked-section" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">更多相似内容</h2>
+            <div id="more-liked-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div th:each="video : ${MoreLiked}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <a th:href="@{'/videos/detail/' + ${video.id}}">
+                        <img class="w-full h-64 object-cover" th:src="${video.coverUrl}" referrerpolicy="origin" th:alt="${video.title}">
+                        <div class="p-4">
+                            <h3 class="font-bold mb-2" th:text="${video.title}">视频标题</h3>
+                            <div class="flex items-center mb-2">
+                                <span class="text-yellow-400">★</span>
+                                <span class="ml-1" th:text="${video.score}">9.2</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 将API数据注入到页面中 -->
+        <script th:inline="javascript">
+            // 从Controller传来的动态数据
+            window.videoData = {
+                videoDetail: [[${VideoItem}]],
+                actors: [[${Actors}]],
+                genres: [[${Genres}]],
+                players: [[${VideoItem.videoPlayList}]]
+            };
+
+            // 不常变动的静态数据直接写在这里
+            window.staticData = {
+                playerOptions: {
+                    autoplay: true,
+                    controls: true,
+                    // 其他播放器选项...
+                },
+                uiLabels: {
+                    watchNow: "立即观看",
+                    addToFavorites: "收藏",
+                    removeFromFavorites: "取消收藏",
+                    // 其他UI标签...
+                }
+            };
+        </script>
+
+        <!-- HLS.js 播放器 -->
+        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+        <!-- 视频播放器脚本 -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const video = document.getElementById('video');
+                const gatherContainer = document.getElementById('gather-container');
+                let currentPlayUrl = null;
+                let currentGatherData = null;
+
+                // 初始化播放器
+                function initPlayer(url) {
+                    if (Hls.isSupported()) {
+                        const hls = new Hls({
+                            debug: false,
+                        });
+                        hls.loadSource(url);
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                            video.muted = false;
+                            video.play();
+                        });
+                    }
+                    currentPlayUrl = url;
+                }
+
+                // 更新当前播放信息
+                function updateCurrentEpisodeInfo() {
+                    if (currentPlayUrl) {
+                        const buttons = document.querySelectorAll('#gather-container button');
+                        for (const btn of buttons) {
+                            if (btn.dataset.playUrl === currentPlayUrl) {
+                                const title = btn.textContent.trim();
+                                document.getElementById('current-episode-title').textContent = title;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // 播放点击处理
+                window.handlePlayClick = function(playUrl, title) {
+                    if(currentPlayUrl !== playUrl) {
+                        initPlayer(playUrl);
+
+                        // 更新对话框中的选集按钮状态
+                        document.querySelectorAll('#gather-container button').forEach(btn => {
+                            if(btn.dataset.playUrl === playUrl) {
+                                btn.classList.remove('bg-gray-700', 'text-white');
+                                btn.classList.add('bg-yellow-500', 'text-black');
+
+                                // 自动滚动到当前选集
+                                setTimeout(() => {
+                                    const scrollContainer = document.getElementById('episodes-scroll-container');
+                                    if (scrollContainer) {
+                                        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    }
+                                }, 100);
+                            } else {
+                                btn.classList.remove('bg-yellow-500', 'text-black');
+                                btn.classList.add('bg-gray-700', 'text-white');
+                            }
+                        });
+
+                        // 更新内嵌选集列表的按钮状态
+                        document.querySelectorAll('#inline-episodes-container button').forEach(btn => {
+                            if(btn.dataset.playUrl === playUrl) {
+                                btn.classList.remove('bg-gray-700', 'text-white');
+                                btn.classList.add('bg-yellow-500', 'text-black');
+
+                                // 自动滚动到当前选集
+                                setTimeout(() => {
+                                    const container = document.getElementById('inline-episodes-container');
+                                    if (container) {
+                                        container.scrollLeft = btn.offsetLeft - (container.clientWidth / 2) + (btn.clientWidth / 2);
+                                    }
+                                }, 100);
+                            } else {
+                                btn.classList.remove('bg-yellow-500', 'text-black');
+                                btn.classList.add('bg-gray-700', 'text-white');
+                            }
+                        });
+
+                        // 更新当前播放信息
+                        document.getElementById('current-episode-title').textContent = title || '未命名选集';
+
+                        // 关闭对话框
+                        document.getElementById('episodes-dialog').classList.add('hidden');
+
+                        currentPlayUrl = playUrl;
+                    }
+                };
+
+                // 渲染播放列表
+                function renderGatherPlayers(playList, gatherId) {
+                    if(!playList || playList.length === 0) {
+                        gatherContainer.innerHTML = '<p class="text-gray-400">暂无选集数据</p>';
+                        return;
+                    }
+
+                    gatherContainer.innerHTML = '';
+
+                    // 记录当前选集按钮，用于后续滚动
+                    let currentEpisodeButton = null;
+
+                    playList.forEach(play => {
+                        const button = document.createElement('button');
+                        button.className = 'px-4 py-2 text-center rounded font-medium whitespace-nowrap';
+
+                        // 判断是否是当前播放的选集
+                        const isCurrentEpisode = play.playUrl === currentPlayUrl;
+                        button.className += isCurrentEpisode ? ' bg-yellow-500 text-black' : ' bg-gray-700 text-white hover:bg-gray-600';
+
+                        if (isCurrentEpisode) {
+                            currentEpisodeButton = button;
+                        }
+
+                        button.textContent = play.title || '未命名选集';
+                        button.dataset.playUrl = play.playUrl;
+                        button.onclick = function() {
+                            handlePlayClick(play.playUrl, play.title || '未命名选集');
+                        };
+
+                        gatherContainer.appendChild(button);
+                    });
+
+                    // 更新当前播放信息
+                    updateCurrentEpisodeInfo();
+
+                    // 如果有当前选集，自动滚动到该选集
+                    if (currentEpisodeButton) {
+                        setTimeout(() => {
+                            const scrollContainer = document.getElementById('episodes-scroll-container');
+                            if (scrollContainer) {
+                                currentEpisodeButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 100);
+                    }
+                }
+
+                // 渲染内嵌选集列表
+                function renderInlineEpisodes(playList, gatherId) {
+                    const container = document.getElementById('inline-episodes-container');
+                    if(!playList || playList.length === 0) {
+                        container.innerHTML = '<p class="text-gray-400">暂无选集数据</p>';
+                        return;
+                    }
+
+                    container.innerHTML = '';
+
+                    // 记录当前选集按钮，用于后续滚动
+                    let currentEpisodeButton = null;
+
+                    playList.forEach(play => {
+                        const button = document.createElement('button');
+                        button.className = 'px-3 py-1 text-center rounded whitespace-nowrap flex-shrink-0';
+
+                        // 判断是否是当前播放的选集
+                        const isCurrentEpisode = play.playUrl === currentPlayUrl;
+                        button.className += isCurrentEpisode ? ' bg-yellow-500 text-black' : ' bg-gray-700 text-white hover:bg-gray-600';
+
+                        if (isCurrentEpisode) {
+                            currentEpisodeButton = button;
+                        }
+
+                        button.textContent = play.title || '未命名选集';
+                        button.dataset.playUrl = play.playUrl;
+                        button.onclick = function() {
+                            handlePlayClick(play.playUrl, play.title || '未命名选集');
+                        };
+
+                        container.appendChild(button);
+                    });
+
+                    // 如果有当前选集，自动滚动到该选集
+                    if (currentEpisodeButton) {
+                        setTimeout(() => {
+                            container.scrollLeft = currentEpisodeButton.offsetLeft - (container.clientWidth / 2) + (currentEpisodeButton.clientWidth / 2);
+                        }, 100);
+                    }
+                }
+
+                // 初始化选项卡和播放列表
+                function initTabs() {
+                    const players = window.videoData.players;
+                    if (!players || players.length === 0) return;
+
+                    currentGatherData = players;
+
+                    // 绑定选项卡点击事件
+                    document.querySelectorAll('.tab-button').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const index = parseInt(this.dataset.index);
+                            const gatherData = currentGatherData[index];
+
+                            // 更新选项卡样式
+                            document.querySelectorAll('.tab-button').forEach(btn => {
+                                btn.classList.remove('border-yellow-400', 'text-yellow-400');
+                                btn.classList.add('border-transparent', 'text-gray-400');
+                            });
+
+                            // 更新当前选项卡
+                            document.querySelectorAll(`.tab-button[data-index="${index}"]`).forEach(btn => {
+                                btn.classList.add('border-yellow-400', 'text-yellow-400');
+                                btn.classList.remove('border-transparent', 'text-gray-400');
+                            });
+
+                            // 渲染对应的播放列表
+                            renderGatherPlayers(gatherData.playList, gatherData.gatherId);
+                            // 同时更新内嵌选集列表
+                            renderInlineEpisodes(gatherData.playList, gatherData.gatherId);
+                        });
+                    });
+
+                    // 默认加载第一个gather的第一个视频
+                    const firstGather = players[0];
+                    if(firstGather.playList && firstGather.playList.length > 0) {
+                        initPlayer(firstGather.playList[0].playUrl);
+                        document.getElementById('current-episode-title').textContent =
+                            firstGather.playList[0].title || '未命名选集';
+                        renderGatherPlayers(firstGather.playList, firstGather.gatherId);
+                        // 同时渲染内嵌选集列表
+                        renderInlineEpisodes(firstGather.playList, firstGather.gatherId);
+                    }
+                }
+
+                // 绑定显示选集对话框按钮点击事件
+                document.getElementById('show-episodes-btn').addEventListener('click', function() {
+                    document.getElementById('episodes-dialog').classList.remove('hidden');
+                });
+
+                // 绑定关闭对话框按钮点击事件
+                document.getElementById('close-dialog-btn').addEventListener('click', function() {
+                    document.getElementById('episodes-dialog').classList.add('hidden');
+                });
+
+                // 点击对话框背景关闭对话框
+                document.getElementById('episodes-dialog').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.add('hidden');
+                    }
+                });
+
+                // 绑定显示评论表单按钮点击事件
+                document.getElementById('show-comment-form').addEventListener('click', function() {
+                    const form = document.getElementById('comment-form');
+                    form.classList.toggle('hidden');
+                });
+
+                // 绑定查看更多评论按钮点击事件
+                const loadMoreBtn = document.getElementById('load-more-comments-btn');
+                if (loadMoreBtn) {
+                    loadMoreBtn.addEventListener('click', function() {
+                        console.log('查看更多评论按钮被点击');
+
+                        // 显示所有隐藏的评论
+                        const hiddenComments = document.querySelectorAll('.comment-item.hidden');
+                        console.log('找到隐藏评论数量:', hiddenComments.length);
+
+                        hiddenComments.forEach(comment => {
+                            comment.classList.remove('hidden');
+                            console.log('显示评论:', comment.textContent.substring(0, 20) + '...');
+                        });
+
+                        // 隐藏"查看更多"按钮
+                        const loadMoreContainer = document.getElementById('load-more-comments');
+                        if (loadMoreContainer) {
+                            loadMoreContainer.classList.add('hidden');
+                            console.log('隐藏"查看更多"按钮');
+                        } else {
+                            console.error('未找到load-more-comments元素');
+                        }
+                    });
+                } else {
+                    console.error('未找到load-more-comments-btn元素');
+                }
+
+                // 绑定评论表单提交
+                document.getElementById('comment-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+
+                    fetch(`/api-proxy/comments-post/${window.videoData.videoDetail.id}/0`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if(data.code === "0") {
+                                // 重新加载评论
+                                fetch(`/api-proxy/comments/${window.videoData.videoDetail.id}/0`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // 刷新评论列表
+                                        location.reload();
+                                    });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error submitting comment:', error);
+                        });
+                });
+
+                // 初始化
+                initTabs();
+            });
+        </script>
+    </div>
+</th:block>
+</body>
+</html>

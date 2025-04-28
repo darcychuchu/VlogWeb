@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head th:replace="~{layout :: head(~{::title}, '发生错误', '错误,视频网站')}">
+    <title>错误 - 视频网站</title>
+</head>
+<body class="bg-black text-white">
+    <th:block th:replace="~{layout :: layout(~{::div.content})}">
+        <div class="content">
+            <div class="max-w-3xl mx-auto bg-gray-800 rounded-lg p-8 shadow-lg">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mr-4"></i>
+                        <h1 class="text-2xl font-bold">出错了</h1>
+                    </div>
+                    <div class="text-5xl font-bold text-red-500" th:text="${errorCode ?: '500'}">错误代码</div>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-xl mb-4" th:text="${errorMessage}">发生了错误</p>
+                    <p class="text-gray-400" th:if="${errorDetails}" th:text="${errorDetails}">错误详情</p>
+                </div>
+
+                <div class="flex space-x-4">
+                    <a href="/" class="bg-yellow-500 text-black px-4 py-2 rounded-md hover:bg-yellow-400">
+                        返回首页
+                    </a>
+                    <button onclick="window.history.back()" class="bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        返回上一页
+                    </button>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .register-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .register-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-register {
+            width: 100%;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .feedback {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .captcha-container {
+            display: flex;
+            align-items: center;
+        }
+        .captcha-input {
+            flex: 1;
+        }
+        .captcha-image {
+            margin-left: 10px;
+            height: 40px;
+            cursor: pointer;
+        }
+        .captcha-refresh {
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* 错误提示样式 */
+        .invalid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* 成功提示样式 */
+        .valid-feedback {
+            display: none;
+            width: 100%;
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+            color: #198754;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-container">
+            <h2 class="register-title">用户注册</h2>
+
+            <!-- 显示错误消息 -->
+            <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+            <!-- 显示成功消息 -->
+            <div th:if="${success}" class="alert alert-success" role="alert" th:text="${success}"></div>
+
+            <form th:action="@{/user/register}" method="post" id="registerForm">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" id="username" name="username" required placeholder="只能使用字母和数字">
+                </div>
+
+                <div class="form-group">
+                    <label for="nickname">昵称</label>
+                    <input type="text" class="form-control" id="nickname" name="nickname" required>
+                    <small class="form-text text-muted">注册后昵称只能修改一次，请谨慎填写</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" name="password" required placeholder="至少6位密码">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">确认密码</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">个人简介（可选）</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="captcha">验证码</label>
+                    <div class="captcha-container">
+                        <input type="text" class="form-control captcha-input" id="captcha" name="captcha" required>
+                        <img id="captchaImage" class="captcha-image" alt="验证码">
+                        <span class="captcha-refresh" id="refreshCaptcha" title="刷新验证码">⟳</span>
+                    </div>
+                    <input type="hidden" id="captchaSessionId" name="captchaSessionId">
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-register">注册</button>
+            </form>
+
+            <div class="login-link">
+                <p>已有账号？<a th:href="@{/user/login}">立即登录</a></p>
+            </div>
+
+            <div class="text-center mt-3">
+                <a th:href="@{/}" class="btn btn-link">返回首页</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 加载验证码
+            function loadCaptcha() {
+                $.getJSON('/captcha/generate', function(data) {
+                    $('#captchaImage').attr('src', 'data:image/png;base64,' + data.imageBase64);
+                    $('#captchaSessionId').val(data.sessionId);
+                });
+            }
+
+            // 页面加载时生成验证码
+            loadCaptcha();
+
+            // 点击验证码图片或刷新按钮时重新生成验证码
+            $('#captchaImage, #refreshCaptcha').click(function() {
+                loadCaptcha();
+            });
+
+            // 检查用户名格式和是否存在
+            function validateUsername() {
+                const username = $('#username').val();
+                if (username) {
+                    // 显示加载中状态
+                    $('#username').removeClass('is-invalid').removeClass('is-valid');
+                    $('#username').addClass('border-warning');
+                    $('#username').next('.invalid-feedback').hide();
+                    $('#username').siblings('.valid-feedback').hide();
+                    if (!$('#username').siblings('.checking-feedback').length) {
+                        $('#username').after('<div class="checking-feedback text-warning small">\u6b63\u5728\u68c0\u67e5\u7528\u6237\u540d...</div>');
+                    } else {
+                        $('#username').siblings('.checking-feedback').show();
+                    }
+
+                    $.getJSON('/user/check-username', { username: username }, function(data) {
+                        $('#username').removeClass('border-warning');
+                        $('#username').siblings('.checking-feedback').hide();
+
+                        console.log('Username check response:', data); // 添加调试日志
+
+                        // 先移除所有反馈元素
+                        $('#username').siblings('.valid-feedback').remove();
+                        $('#username').siblings('.invalid-feedback').remove();
+
+                        if (!data.valid) {
+                            // 用户名格式不正确
+                            $('#username').removeClass('is-valid').addClass('is-invalid');
+                            // 创建新的错误提示
+                            $('<div class="invalid-feedback" style="display: block;">' + data.message + '</div>').insertAfter('#username');
+                        } else if (data.exists) {
+                            // 用户名已存在
+                            $('#username').removeClass('is-valid').addClass('is-invalid');
+                            // 创建新的错误提示
+                            $('<div class="invalid-feedback" style="display: block;">用户名 "' + username + '" 已存在，请选择其他用户名</div>').insertAfter('#username');
+                        } else {
+                            // 用户名可用
+                            $('#username').removeClass('is-invalid').addClass('is-valid');
+                            // 创建新的成功提示
+                            $('<div class="valid-feedback" style="display: block;">用户名 "' + username + '" 可以使用</div>').insertAfter('#username');
+                        }
+                    });
+                }
+            }
+
+            // 在失去焦点时验证用户名
+            $('#username').blur(validateUsername);
+
+            // 在输入停止后验证用户名（延迟500毫秒）
+            let usernameTimer;
+            $('#username').on('input', function() {
+                clearTimeout(usernameTimer);
+                usernameTimer = setTimeout(validateUsername, 500);
+            });
+
+            // 检查昵称是否存在
+            function validateNickname() {
+                const nickname = $('#nickname').val();
+                if (nickname) {
+                    // 显示加载中状态
+                    $('#nickname').removeClass('is-invalid').removeClass('is-valid');
+                    $('#nickname').addClass('border-warning');
+                    $('#nickname').next('.invalid-feedback').hide();
+                    $('#nickname').siblings('.valid-feedback').hide();
+                    if (!$('#nickname').siblings('.checking-feedback').length) {
+                        $('#nickname').after('<div class="checking-feedback text-warning small">\u6b63\u5728\u68c0\u67e5\u6635\u79f0...</div>');
+                    } else {
+                        $('#nickname').siblings('.checking-feedback').show();
+                    }
+
+                    $.getJSON('/user/check-nickname', { nickname: nickname }, function(data) {
+                        $('#nickname').removeClass('border-warning');
+                        $('#nickname').siblings('.checking-feedback').hide();
+
+                        console.log('Nickname check response:', data); // 添加调试日志
+
+                        // 先移除所有反馈元素
+                        $('#nickname').siblings('.valid-feedback').remove();
+                        $('#nickname').siblings('.invalid-feedback').remove();
+
+                        if (data.exists) {
+                            // 昵称已存在
+                            $('#nickname').removeClass('is-valid').addClass('is-invalid');
+                            // 创建新的错误提示
+                            $('<div class="invalid-feedback" style="display: block;">昵称 "' + nickname + '" 已存在，请选择其他昵称</div>').insertAfter('#nickname');
+                        } else {
+                            // 昵称可用
+                            $('#nickname').removeClass('is-invalid').addClass('is-valid');
+                            // 创建新的成功提示
+                            $('<div class="valid-feedback" style="display: block;">昵称 "' + nickname + '" 可以使用</div>').insertAfter('#nickname');
+                        }
+                    });
+                }
+            }
+
+            // 在失去焦点时验证昵称
+            $('#nickname').blur(validateNickname);
+
+            // 在输入停止后验证昵称（延迟500毫秒）
+            let nicknameTimer;
+            $('#nickname').on('input', function() {
+                clearTimeout(nicknameTimer);
+                nicknameTimer = setTimeout(validateNickname, 500);
+            });
+
+            // 检查密码长度
+            function validatePassword() {
+                const password = $('#password').val();
+                if (password) {
+                    // 先移除所有反馈元素
+                    $('#password').siblings('.valid-feedback').remove();
+                    $('#password').siblings('.invalid-feedback').remove();
+
+                    if (password.length < 6) {
+                        $('#password').removeClass('is-valid').addClass('is-invalid');
+                        // 创建新的错误提示
+                        $('<div class="invalid-feedback" style="display: block;">密码至少需要6位</div>').insertAfter('#password');
+                    } else {
+                        $('#password').removeClass('is-invalid').addClass('is-valid');
+                        // 创建新的成功提示
+                        $('<div class="valid-feedback" style="display: block;">密码长度符合要求</div>').insertAfter('#password');
+
+                        // 当密码变化时，同时验证确认密码
+                        validateConfirmPassword();
+                    }
+                }
+            }
+
+            // 在失去焦点时验证密码
+            $('#password').blur(validatePassword);
+
+            // 在输入停止后验证密码（即时）
+            $('#password').on('input', validatePassword);
+
+            // 检查密码是否一致
+            function validateConfirmPassword() {
+                const password = $('#password').val();
+                const confirmPassword = $('#confirmPassword').val();
+
+                if (confirmPassword) { // 只有当确认密码字段有值时才验证
+                    // 先移除所有反馈元素
+                    $('#confirmPassword').siblings('.valid-feedback').remove();
+                    $('#confirmPassword').siblings('.invalid-feedback').remove();
+
+                    if (password && password !== confirmPassword) {
+                        $('#confirmPassword').removeClass('is-valid').addClass('is-invalid');
+                        // 创建新的错误提示
+                        $('<div class="invalid-feedback" style="display: block;">两次输入的密码不一致</div>').insertAfter('#confirmPassword');
+                    } else if (password) { // 确保密码字段不为空
+                        $('#confirmPassword').removeClass('is-invalid').addClass('is-valid');
+                        // 创建新的成功提示
+                        $('<div class="valid-feedback" style="display: block;">密码一致</div>').insertAfter('#confirmPassword');
+                    }
+                }
+            }
+
+            // 在失去焦点时验证确认密码
+            $('#confirmPassword').blur(validateConfirmPassword);
+
+            // 在输入停止后验证确认密码（即时）
+            $('#confirmPassword').on('input', validateConfirmPassword);
+
+            // 表单提交前验证
+            $('#registerForm').submit(function(event) {
+                // 先触发所有验证
+                validateUsername();
+                validateNickname();
+                validatePassword();
+                validateConfirmPassword();
+
+                // 等待所有AJAX请求完成（给一个短暂停）
+                setTimeout(function() {
+                    let isValid = true;
+
+                    // 检查用户名
+                    if ($('#username').hasClass('is-invalid') || !$('#username').val()) {
+                        $('#username').addClass('is-invalid');
+                        if (!$('#username').val()) {
+                            // 先移除所有反馈元素
+                            $('#username').siblings('.invalid-feedback').remove();
+                            // 创建新的错误提示
+                            $('<div class="invalid-feedback" style="display: block;">请输入用户名</div>').insertAfter('#username');
+                        }
+                        isValid = false;
+                    }
+
+                    // 检查昵称
+                    if ($('#nickname').hasClass('is-invalid') || !$('#nickname').val()) {
+                        $('#nickname').addClass('is-invalid');
+                        if (!$('#nickname').val()) {
+                            // 先移除所有反馈元素
+                            $('#nickname').siblings('.invalid-feedback').remove();
+                            // 创建新的错误提示
+                            $('<div class="invalid-feedback" style="display: block;">请输入昵称</div>').insertAfter('#nickname');
+                        }
+                        isValid = false;
+                    }
+
+                    // 检查密码长度
+                    const password = $('#password').val();
+                    if (password.length < 6) {
+                        $('#password').addClass('is-invalid');
+                        // 先移除所有反馈元素
+                        $('#password').siblings('.invalid-feedback').remove();
+                        // 创建新的错误提示
+                        $('<div class="invalid-feedback" style="display: block;">密码至少需要6位</div>').insertAfter('#password');
+                        isValid = false;
+                    }
+
+                    // 检查密码是否一致
+                    const confirmPassword = $('#confirmPassword').val();
+                    if (password !== confirmPassword || !confirmPassword) {
+                        $('#confirmPassword').addClass('is-invalid');
+                        // 先移除所有反馈元素
+                        $('#confirmPassword').siblings('.invalid-feedback').remove();
+                        // 创建新的错误提示
+                        if (!confirmPassword) {
+                            $('<div class="invalid-feedback" style="display: block;">请确认密码</div>').insertAfter('#confirmPassword');
+                        } else {
+                            $('<div class="invalid-feedback" style="display: block;">两次输入的密码不一致</div>').insertAfter('#confirmPassword');
+                        }
+                        isValid = false;
+                    }
+
+                    // 检查验证码
+                    const captcha = $('#captcha').val();
+                    if (!captcha) {
+                        $('#captcha').addClass('is-invalid');
+                        // 先移除所有反馈元素
+                        $('#captcha').siblings('.invalid-feedback').remove();
+                        // 创建新的错误提示
+                        $('<div class="invalid-feedback" style="display: block;">请输入验证码</div>').insertAfter('#captcha');
+                        isValid = false;
+                    }
+
+                    if (!isValid) {
+                        event.preventDefault();
+                    }
+                }, 300); // 给一个短暂停，等待AJAX完成
+
+                // 防止表单立即提交，等待验证完成
+                event.preventDefault();
+
+                // 在验证完成后才提交表单
+                setTimeout(function() {
+                    if (!$('#username').hasClass('is-invalid') &&
+                        !$('#nickname').hasClass('is-invalid') &&
+                        !$('#password').hasClass('is-invalid') &&
+                        !$('#confirmPassword').hasClass('is-invalid') &&
+                        $('#captcha').val()) {
+                        $('#registerForm')[0].submit();
+                    }
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

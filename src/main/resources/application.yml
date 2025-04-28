@@ -1,0 +1,41 @@
+server:
+  port: 8091
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+    mime-types: image/webp,image/jpeg,image/png
+
+spring:
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+  mvc:
+    async:
+      request-timeout: 60000  # 60 seconds
+  task:
+    execution:
+      pool:
+        core-size: 20
+        max-size: 100
+        queue-capacity: 1000
+
+
+api:
+  #base-url: http://127.0.0.1:8085/api/json/v1
+  #image-url: http://127.0.0.1:8082
+  base-url: https://66log.com/api/json/v1
+  image-url: http://127.0.0.1:8082
+
+#logging:
+#  level:
+#    root: INFO
+#    org.springframework.web.client.RestTemplate: INFO
+#    org.springframework.web: INFO
+#    org.springframework.http.client: INFO
+#    com.vlog.web: INFO
+#    com.vlog.web.service.ApiService: INFO
+#    com.vlog.web.config.RestTemplateConfig: INFO

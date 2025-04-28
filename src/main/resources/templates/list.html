@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head th:replace="~{layout :: head(~{::title}, '视频列表 - 视频网站', '视频,电影,电视剧,动漫,综艺,列表')}">
+    <title>视频列表 - 视频网站</title>
+</head>
+<body class="bg-black text-white">
+    <th:block th:replace="~{layout :: layout(~{::div.content})}">
+        <div class="content">
+            <!-- 筛选栏 -->
+            <div class="bg-gray-800 rounded-lg lg:mb-8 lg:p-4 lg:text-sm text-xs">
+                <!-- 使用flex布局，自动换行，统一所有筛选条件的显示方式 -->
+                <div class="flex flex-col space-y-1 lg:space-y-4">
+
+                    <!-- 类型筛选 -->
+                    <div class="filter-row">
+                        <div class="flex items-center">
+                            <span class="text-gray-400 mr-2 lg:w-16 flex-shrink-0">类型:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <a th:href="@{/list(typed=0)}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${typed == 0 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">全部</a>
+                                <a th:each="type : ${videoTypes}"
+                                   th:href="@{/list(typed=${type.isTyped})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${typed == type.isTyped ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}"
+                                   th:text="${type.title}">类型名称</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- 分类筛选 -->
+                    <div class="filter-row" th:if="${categories != null && !categories.empty}">
+                        <div class="flex items-center">
+                            <span class="text-gray-400 mr-2 lg:w-16 flex-shrink-0">分类:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=${year},orderBy=${orderBy},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${cate == '' ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">全部</a>
+                                <a th:each="category : ${categories}"
+                                   th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=${year},orderBy=${orderBy},cate=${category.id},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${cate == category.id ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}"
+                                   th:text="${category.title}">分类</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 地区筛选 - 只在电影类型下显示 -->
+                    <div class="filter-row" th:if="${typed == 1}">
+                        <div class="flex items-center">
+                            <span class="text-gray-400 mr-2 lg:w-16 flex-shrink-0">地区:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},year=${year},orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${code == 0 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">全部</a>
+                                <a th:each="address : ${addresses}"
+                                   th:href="@{/list(typed=${typed},page=${page},size=${size},code=${address.code},year=${year},orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${code == address.code ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}"
+                                   th:text="${address.name}">地区</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 年份筛选 -->
+                    <div class="filter-row">
+                        <div class="flex items-center">
+                            <span class="text-gray-400 mr-2 lg:w-16 flex-shrink-0">年份:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${year == 0 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">全部</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=2025,orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${year == 2025 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2025</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=2024,orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${year == 2024 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2024</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=2023,orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${year == 2023 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2023</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=2022,orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${year == 2022 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2022</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=2021,orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${year == 2021 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2021年以前</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 排序方式 -->
+                    <div class="filter-row">
+                        <div class="flex items-center">
+                            <span class="text-gray-400 mr-2 lg:w-16 flex-shrink-0">排序:</span>
+                            <div class="flex flex-wrap gap-2">
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=${year},orderBy=3,cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${orderBy == 3 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">最新</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=${year},orderBy=2,cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${orderBy == 2 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">最热</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},code=${code},year=${year},orderBy=1,cate=${cate},tag=${tag})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${orderBy == 1 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">评分</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 视频列表 -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">视频列表</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div th:if="${paginatedVideos}" th:each="video : ${paginatedVideos.content}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <a th:href="@{'/videos/detail/' + ${video.id}}">
+                            <div class="relative">
+                                <img th:src="${video.coverUrl}" referrerpolicy="origin" class="w-full h-48 object-cover" th:alt="${video.title}">
+                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${video.score}">9.2</div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold mb-1 truncate" th:text="${video.title}">视频标题</h3>
+                                <p class="text-gray-400 text-sm truncate" th:text="${video.actors}">演员表</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div th:if="${paginatedVideos.size == 0}" class="col-span-full text-center py-8">
+                        <p class="text-gray-400">暂无符合条件的视频</p>
+                    </div>
+                </div>
+
+                <!-- 分页 -->
+                <div th:if="${paginatedVideos}" class="mt-8 flex justify-center">
+                    <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        <!-- 上一页 -->
+                        <a th:href="@{/list(typed=${typed},page=${paginatedVideos.number > 0 ? paginatedVideos.number : 1},size=${size},code=${code},year=${year},orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                           class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700"
+                           th:classappend="${paginatedVideos.first ? 'opacity-50 cursor-not-allowed' : ''}">
+                            <span class="sr-only">上一页</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+
+                        <!-- 页码 -->
+                        <th:block th:with="startPage=${paginatedVideos.number - 2 > 0 ? paginatedVideos.number - 2 : 1}, endPage=${paginatedVideos.number + 2 < paginatedVideos.totalPages ? paginatedVideos.number + 2 : paginatedVideos.totalPages}">
+                            <a th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                               th:href="@{/list(typed=${typed},page=${i},size=${size},code=${code},year=${year},orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                               class="relative inline-flex items-center px-4 py-2 border border-gray-700 bg-gray-800 text-sm font-medium hover:bg-gray-700"
+                               th:classappend="${i == paginatedVideos.number + 1 ? 'bg-yellow-500 text-black border-yellow-500' : 'text-gray-400'}">
+                                <span th:text="${i}">1</span>
+                            </a>
+                        </th:block>
+
+                        <!-- 下一页 -->
+                        <a th:href="@{/list(typed=${typed},page=${paginatedVideos.number + 2 <= paginatedVideos.totalPages ? paginatedVideos.number + 2 : paginatedVideos.totalPages},size=${size},code=${code},year=${year},orderBy=${orderBy},cate=${cate},tag=${tag})}"
+                           class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700"
+                           th:classappend="${paginatedVideos.last ? 'opacity-50 cursor-not-allowed' : ''}">
+                            <span class="sr-only">下一页</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- 将API数据注入到页面中 -->
+            <script th:inline="javascript">
+                // 从Controller传来的动态数据
+                window.videoData = {
+                    paginatedVideos: [[${paginatedVideos}]],
+                    videoTypes: [[${videoTypes}]],
+                    categories: [[${categories}]],
+                    addresses: [[${addresses}]],
+                    typed: [[${typed}]],
+                    page: [[${page}]],
+                    size: [[${size}]],
+                    code: [[${code}]],
+                    year: [[${year}]],
+                    orderBy: [[${orderBy}]],
+                    cate: [[${cate}]],
+                    tag: [[${tag}]]
+                };
+            </script>
+        </div>
+    </th:block>
+</body>
+</html>

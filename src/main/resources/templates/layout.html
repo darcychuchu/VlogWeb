@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head th:fragment="head(title, description, keywords)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">视频网站</title>
+    <meta name="description" th:attr="content=${description}">
+    <meta name="keywords" th:attr="content=${keywords}">
+    <meta name="referrer" content="origin">
+    <link rel="icon" th:href="@{/images/logo.svg}" type="image/svg+xml"/>
+
+    <!-- 基本样式 -->
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* 移动端导航样式 */
+        @media (max-width: 768px) {
+            #mobile-search-form, #mobile-user-menu, #mobile-main-menu {
+                transition: all 0.3s ease;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            #mobile-search-form.hidden, #mobile-user-menu.hidden, #mobile-main-menu.hidden {
+                max-height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                margin-top: 0;
+                margin-bottom: 0;
+                opacity: 0;
+            }
+
+            #mobile-search-form:not(.hidden), #mobile-user-menu:not(.hidden), #mobile-main-menu:not(.hidden) {
+                max-height: 300px;
+                opacity: 1;
+            }
+
+            #mobile-menu-button, #mobile-search-button, #mobile-user-button {
+                position: relative;
+            }
+
+            #mobile-menu-button:active, #mobile-search-button:active, #mobile-user-button:active {
+                transform: scale(0.95);
+            }
+
+            #mobile-main-menu, #mobile-user-menu {
+                border-radius: 0.375rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+
+            /* 菜单图标样式 */
+            #mobile-menu-button {
+                margin-right: 2px;
+            }
+        }
+    </style>
+
+    <!-- 直接引入CDN资源 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+
+    <!-- 其他CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg-black text-white">
+<!-- 头部导航 -->
+<header th:fragment="header" class="bg-gray-900 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                <div class="flex-shrink-0 flex items-center">
+                    <a th:href="@{'/'}" class="flex space-x-2 items-center">
+                        <svg class="h-8 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 54" fill="currentColor">
+                            <path d="M2.6,20.4L19,30.1l5.5,3.2L8.1,43.1v-13l-5.5-3.3v19.8c0,0.6,0.2,1.2,0.5,1.8c0.3,0.5,0.7,1,1.3,1.3c1.1,0.6,2.4,0.6,3.5,0l22.3-13.3c0.5-0.3,1-0.8,1.2-1.3c0.6-1.1,0.6-2.5,0-3.6c-0.3-0.5-0.7-1-1.3-1.3h-0.1l5.5-3.3c0.5-0.3,1-0.8,1.3-1.3c0.6-1.1,0.6-2.5,0-3.6c-0.3-0.5-0.7-1-1.3-1.3L7.8,4.3c-1.1-0.6-2.4-0.6-3.5,0C3.8,4.6,3.4,5,3.1,5.6C2.8,6.1,2.6,6.7,2.6,7.3M8.1,17.1v-6.2l21.8,13L24.7,27"/>
+                        </svg>
+
+                        <span class="text-sm font-bold text-yellow-400">18log.com</span>
+                    </a>
+                </div>
+                <nav class="ml-6 hidden md:flex lg:space-x-8 space-x-2">
+                    <!-- 动态生成视频类型导航 -->
+                    <a th:each="type : ${navVideoTypes}"
+                       th:href="@{/list(typed=${type.isTyped})}"
+                       class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-300 hover:text-white hover:border-gray-300 focus:outline-none focus:text-white focus:border-gray-300 transition duration-150 ease-in-out"
+                       th:classappend="${typed == type.isTyped ? 'border-yellow-500 text-yellow-500' : ''}"
+                       th:text="${type.title}">类型名称</a>
+                </nav>
+            </div>
+
+            <!-- 桌面版搜索和用户菜单 -->
+            <div class="hidden md:flex md:flex-row justify-end z-50 items-center gap-y-6 p-6 rounded-xl lg:gap-y-0 lg:p-0 md:flex-nowrap lg:bg-transparent">
+                <div>
+                    <form action="/search" method="get" class="flex">
+                        <input type="text" name="keyword" placeholder="搜索..." class="px-3 py-1 rounded-l-md bg-gray-800 text-white focus:outline-none">
+                        <button type="submit" class="bg-yellow-500 text-black px-3 py-1 rounded-r-md hover:bg-yellow-400">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="ml-4 flex items-center md:ml-6">
+                    <!-- 未登录状态 -->
+                    <div th:if="${session.user == null}" class="flex items-center">
+                        <a th:href="@{/user/login}" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">登录</a>
+                        <a th:href="@{/user/register}" class="bg-yellow-500 text-black px-3 py-2 rounded-md text-sm font-medium hover:bg-yellow-400">注册</a>
+                    </div>
+
+                    <!-- 已登录状态 -->
+                    <div th:if="${session.user != null}" class="relative">
+                        <div class="flex items-center">
+                            <button id="user-menu-button" class="flex items-center text-sm focus:outline-none">
+                                <img th:if="${session.user.avatar}" th:src="${session.user.avatar}" class="h-8 w-8 rounded-full object-cover" alt="用户头像">
+                                <img th:unless="${session.user.avatar}" th:src="@{/images/default-avatar.svg}" class="h-8 w-8 rounded-full object-cover" alt="默认头像">
+                                <span class="ml-2 text-gray-300" th:text="${session.user.nickName}">用户昵称</span>
+                                <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- 下拉菜单 -->
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
+                            <a th:href="@{/user/profile}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">个人资料</a>
+                            <a th:href="@{/user/logout}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 移动端导航图标 -->
+            <div class="flex md:hidden items-center space-x-4">
+                <!-- 菜单图标 -->
+                <button id="mobile-menu-button" class="text-gray-300 hover:text-white p-2">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+
+                <!-- 搜索图标 -->
+                <button id="mobile-search-button" class="text-gray-300 hover:text-white p-2">
+                    <i class="fas fa-search text-xl"></i>
+                </button>
+
+                <!-- 用户图标 -->
+                <button id="mobile-user-button" class="text-gray-300 hover:text-white p-2">
+                    <i class="fas fa-user-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 移动端搜索表单 (默认隐藏) -->
+        <div id="mobile-search-form" class="md:hidden hidden py-2 pb-4">
+            <form action="/search" method="get" class="flex">
+                <input type="text" name="keyword" placeholder="搜索..." class="w-full px-3 py-2 rounded-l-md bg-gray-800 text-white focus:outline-none">
+                <button type="submit" class="bg-yellow-500 text-black px-4 py-2 rounded-r-md hover:bg-yellow-400">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 移动端主菜单 (默认隐藏) -->
+        <div id="mobile-main-menu" class="md:hidden hidden py-2 pb-4 bg-gray-800 rounded-md">
+            <div class="px-4 py-2">
+                <h3 class="text-sm font-medium text-gray-400 uppercase tracking-wider mb-2">视频分类</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <!-- 动态生成视频类型导航 -->
+                    <a th:each="type : ${navVideoTypes}"
+                       th:href="@{/list(typed=${type.isTyped})}"
+                       class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 transition duration-150 ease-in-out"
+                       th:classappend="${typed == type.isTyped ? 'bg-gray-700 text-white' : ''}"
+                       th:text="${type.title}">类型名称</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端用户菜单 (默认隐藏) -->
+        <div id="mobile-user-menu" class="md:hidden hidden py-2 pb-4 bg-gray-800 rounded-md">
+            <!-- 未登录状态 -->
+            <div th:if="${session.user == null}" class="flex flex-col space-y-2 px-4">
+                <a th:href="@{/user/login}" class="text-gray-300 hover:text-white py-2 text-sm font-medium">登录</a>
+                <a th:href="@{/user/register}" class="bg-yellow-500 text-black py-2 px-4 rounded-md text-center text-sm font-medium hover:bg-yellow-400">注册</a>
+            </div>
+
+            <!-- 已登录状态 -->
+            <div th:if="${session.user != null}" class="px-4">
+                <div class="flex items-center py-2 border-b border-gray-700">
+                    <img th:if="${session.user.avatar}" th:src="${session.user.avatar}" class="h-8 w-8 rounded-full object-cover" alt="用户头像">
+                    <img th:unless="${session.user.avatar}" th:src="@{/images/default-avatar.svg}" class="h-8 w-8 rounded-full object-cover" alt="默认头像">
+                    <span class="ml-2 text-gray-300" th:text="${session.user.nickName}">用户昵称</span>
+                </div>
+                <div class="py-2 space-y-2">
+                    <a th:href="@{/user/profile}" class="block py-2 text-sm text-gray-300 hover:text-white">个人资料</a>
+                    <a th:href="@{/user/logout}" class="block py-2 text-sm text-gray-300 hover:text-white">退出登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- 主要内容 -->
+<main th:fragment="main" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div th:replace="${content}">
+        <!-- 页面内容将在这里替换 -->
+    </div>
+</main>
+
+<!-- 页脚 -->
+<footer th:fragment="footer" class="bg-gray-900 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row justify-between">
+            <div class="mb-6 md:mb-0">
+                <h2 class="text-xl font-bold text-yellow-400 mb-4">视频网站</h2>
+                <p class="text-gray-400">提供高清视频在线观看</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">关于我们</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">关于我们</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">联系我们</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">用户协议</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">隐私政策</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">帮助中心</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">常见问题</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">观看指南</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">反馈建议</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">关注我们</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
+            <p>&copy; 2023 视频网站 版权所有</p>
+        </div>
+    </div>
+</footer>
+
+<!-- 完整页面布局 -->
+<th:block th:fragment="layout(content)">
+    <div th:replace="~{layout :: header}"></div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div th:replace="${content}">
+            <!-- 页面内容将在这里替换 -->
+        </div>
+    </main>
+    <div th:replace="~{layout :: footer}"></div>
+
+    <!-- 脚本处理 -->
+    <script>
+        // 页面加载完成后初始化菜单
+        document.addEventListener('DOMContentLoaded', function() {
+            initUserMenu();
+            initMobileMenu();
+        });
+
+        // 初始化桌面版用户菜单
+        function initUserMenu() {
+            const userMenuButton = document.getElementById('user-menu-button');
+            const userMenu = document.getElementById('user-menu');
+
+            if (userMenuButton && userMenu) {
+                // 点击按钮显示/隐藏菜单
+                userMenuButton.addEventListener('click', function() {
+                    userMenu.classList.toggle('hidden');
+                });
+
+                // 点击其他地方隐藏菜单
+                document.addEventListener('click', function(event) {
+                    if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                        userMenu.classList.add('hidden');
+                    }
+                });
+            }
+        }
+
+        // 初始化移动端菜单
+        function initMobileMenu() {
+            // 移动端菜单按钮
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMainMenu = document.getElementById('mobile-main-menu');
+
+            // 移动端搜索按钮
+            const mobileSearchButton = document.getElementById('mobile-search-button');
+            const mobileSearchForm = document.getElementById('mobile-search-form');
+
+            // 移动端用户按钮
+            const mobileUserButton = document.getElementById('mobile-user-button');
+            const mobileUserMenu = document.getElementById('mobile-user-menu');
+
+            // 菜单按钮点击事件
+            if (mobileMenuButton && mobileMainMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    // 切换主菜单显示/隐藏
+                    mobileMainMenu.classList.toggle('hidden');
+
+                    // 关闭其他菜单
+                    if (mobileSearchForm && !mobileSearchForm.classList.contains('hidden')) {
+                        mobileSearchForm.classList.add('hidden');
+                    }
+                    if (mobileUserMenu && !mobileUserMenu.classList.contains('hidden')) {
+                        mobileUserMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // 搜索按钮点击事件
+            if (mobileSearchButton && mobileSearchForm) {
+                mobileSearchButton.addEventListener('click', function() {
+                    // 切换搜索表单显示/隐藏
+                    mobileSearchForm.classList.toggle('hidden');
+
+                    // 关闭其他菜单
+                    if (mobileMainMenu && !mobileMainMenu.classList.contains('hidden')) {
+                        mobileMainMenu.classList.add('hidden');
+                    }
+                    if (mobileUserMenu && !mobileUserMenu.classList.contains('hidden')) {
+                        mobileUserMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // 用户按钮点击事件
+            if (mobileUserButton && mobileUserMenu) {
+                mobileUserButton.addEventListener('click', function() {
+                    // 切换用户菜单显示/隐藏
+                    mobileUserMenu.classList.toggle('hidden');
+
+                    // 关闭其他菜单
+                    if (mobileMainMenu && !mobileMainMenu.classList.contains('hidden')) {
+                        mobileMainMenu.classList.add('hidden');
+                    }
+                    if (mobileSearchForm && !mobileSearchForm.classList.contains('hidden')) {
+                        mobileSearchForm.classList.add('hidden');
+                    }
+                });
+            }
+
+            // 点击其他地方关闭移动端菜单
+            document.addEventListener('click', function(event) {
+                // 关闭主菜单
+                if (mobileMainMenu && !mobileMainMenu.classList.contains('hidden') &&
+                    !mobileMainMenu.contains(event.target) &&
+                    !mobileMenuButton.contains(event.target)) {
+                    mobileMainMenu.classList.add('hidden');
+                }
+
+                // 关闭搜索表单
+                if (mobileSearchForm && !mobileSearchForm.classList.contains('hidden') &&
+                    !mobileSearchForm.contains(event.target) &&
+                    !mobileSearchButton.contains(event.target)) {
+                    mobileSearchForm.classList.add('hidden');
+                }
+
+                // 关闭用户菜单
+                if (mobileUserMenu && !mobileUserMenu.classList.contains('hidden') &&
+                    !mobileUserMenu.contains(event.target) &&
+                    !mobileUserButton.contains(event.target)) {
+                    mobileUserMenu.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+
+    <!-- 备用脚本，当CDN资源加载失败时使用 -->
+    <script th:src="@{/js/fallback.js}" defer></script>
+</th:block>
+</body>
+</html>
