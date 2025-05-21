@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head th:replace="~{layout :: head(~{::title}, '搜索', '搜索')}">
     <title th:text="${keyword != null && !keyword.isEmpty()} ? ${keyword} + ' - 搜索结果' : '搜索'">搜索</title>
-    <meta name="description" th:content="${keyword != null && !keyword.isEmpty()} ? '搜索 ' + ${keyword} + ' 的结果' : '搜索视频'">
-    <meta name="keywords" th:content="${keyword != null && !keyword.isEmpty()} ? ${keyword} + ', 搜索, 视频' : '搜索, 视频'">
 </head>
-<body>
-    <th:block th:replace="~{layout :: layout(~{::section})}">
-        <section>
+<body class="bg-black text-white">
+    <th:block th:replace="~{layout :: layout(~{::div.content})}">
+        <div class="content">
             <!-- 搜索结果页面 -->
             <div class="container mx-auto px-4 py-8">
                 <!-- 搜索框 -->
@@ -39,15 +35,14 @@
                         <div th:each="video : ${videos}" class="video-card">
                             <a th:href="@{/detail/{id}(id=${video.id})}" class="block">
                                 <div class="relative rounded-lg overflow-hidden mb-2 bg-gray-800">
-                                    <img th:src="${video.pic}" th:alt="${video.name}" class="w-full h-auto object-cover">
+                                    <img th:src="${video.coverUrl}" th:alt="${video.title}" class="w-full h-auto object-cover">
                                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2">
-                                        <span class="text-xs text-white" th:text="${video.note}">HD</span>
+                                        <span class="text-xs text-white">HD</span>
                                     </div>
                                 </div>
-                                <h3 class="text-sm font-medium text-white line-clamp-2" th:text="${video.name}">视频标题</h3>
+                                <h3 class="text-sm font-medium text-white line-clamp-2" th:text="${video.title}">视频标题</h3>
                                 <div class="flex justify-between items-center mt-1">
-                                    <span class="text-xs text-gray-400" th:text="${video.year}">2023</span>
-                                    <span class="text-xs text-yellow-500" th:if="${video.score != null && video.score > 0}" th:text="${video.score}">9.8</span>
+                                    <span class="text-xs text-yellow-500" th:text="${video.score}">9.8</span>
                                 </div>
                             </a>
                         </div>
@@ -90,7 +85,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </th:block>
 </body>
 </html>

@@ -22,6 +22,22 @@ class VideoController(
 ) {
     //private val logger = LoggerFactory.getLogger(VideoController::class.java)
 
+    @GetMapping("/videos/recommend/{id}", "/recommend/{id}")
+    fun recommend(
+        @PathVariable id: String,
+        session: HttpSession
+    ): String {
+        try {
+            val user = session.getAttribute("user") as? UsersDto
+            val token = user?.accessToken
+            apiService.recommendVideoDetail(id=id, token=token)
+            return "redirect:/detail/$id"
+        } catch (e: Exception) {
+            return "redirect:/detail/$id"
+        }
+    }
+
+
     @GetMapping("/videos/detail/{id}", "/detail/{id}")
     fun detail(
         @PathVariable id: String,

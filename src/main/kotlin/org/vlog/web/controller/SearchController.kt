@@ -50,13 +50,15 @@ class SearchController(
             // 获取用户token（如果已登录）
             val user = session.getAttribute("user") as? UsersDto
             val token = user?.accessToken
-
-            // 尝试从缓存获取搜索结果
-            val searchResults = RetryUtil.executeWithRetryAndFallback(
-                maxRetries = 2,
-                operation = { apiService.searchVideos(keyword, token) },
-                fallback = { emptyList() }
-            )
+            val searchResults = apiService.searchVideos(keyword, token)
+//            model.addAttribute("videoList", videoList)
+//
+//            // 尝试从缓存获取搜索结果
+//            val searchResults = RetryUtil.executeWithRetryAndFallback(
+//                maxRetries = 2,
+//                operation = { apiService.searchVideos(keyword, token) },
+//                fallback = { emptyList() }
+//            )
 
             // 添加到模型
             model.addAttribute("keyword", keyword)

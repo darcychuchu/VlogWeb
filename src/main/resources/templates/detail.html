@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="~{layout :: head(~{::title}, ${VideoItem.description}, ${VideoItem.tags})}">
     <title th:text="${VideoItem.title + ' - 视频网站'}">视频详情 - 视频网站</title>
+    <script src="../static/js/hls.js"></script>
 </head>
 <body class="bg-black text-white">
 <th:block th:replace="~{layout :: layout(~{::div.content})}">
@@ -48,9 +49,11 @@
                             <a href="#video-player">
                                 <button class="bg-yellow-500 text-black px-8 py-3 rounded-lg font-semibold hover:bg-yellow-400">立即观看</button>
                             </a>
+                            <a th:href="@{'/videos/recommend/' + ${VideoItem.id}}">
                             <button id="favorite-btn" class="bg-gray-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-600">
                                 收藏
                             </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -243,7 +246,8 @@
         </script>
 
         <!-- HLS.js 播放器 -->
-        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+        <script th:src="@{/js/hls.js}" ></script>
+        <!--script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script -->
 
         <!-- 视频播放器脚本 -->
         <script>
