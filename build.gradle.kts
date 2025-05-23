@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.vlog.web"
-version = "0.0.6-SERVER-8091"
+version = "0.0.9-SERVER-8091"
 
 java {
     toolchain {
@@ -26,11 +26,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     //implementation("org.springframework.boot:spring-boot-starter-data-redis")
     //implementation("org.springframework.session:spring-session-data-redis")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    //testImplementation("org.springframework.boot:spring-boot-starter-test")
+    //testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     ///testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4")
     //runtimeOnly("com.mysql:mysql-connector-j")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    //testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation("org.apache.httpcomponents.client5:httpclient5:5.4.3")
     //implementation("org.apache.httpcomponents:httpclient:4.5.13")
