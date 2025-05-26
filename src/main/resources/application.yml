@@ -25,10 +25,10 @@ spring:
 
 
 api:
-  #base-url: http://127.0.0.1:8085/api/json/v1
-  #image-url: http://127.0.0.1:8082
-  base-url: https://66log.com/api/json/v1
+  base-url: http://127.0.0.1:8085/api/json/v1
   image-url: http://127.0.0.1:8082
+  #base-url: https://api.66log.com/api/json/v1
+  #image-url: http://127.0.0.1:8082
 
 #logging:
 #  level:

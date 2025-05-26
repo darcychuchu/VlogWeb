@@ -17,7 +17,7 @@ class HomeController(
     fun index(
         model: Model,
         @RequestParam(required = false, defaultValue = "0") typed: Int,
-        @RequestParam(required = false, defaultValue = "0") released: Long,
+        @RequestParam(required = false, defaultValue = "2025") released: Long,
         @RequestParam(required = false, defaultValue = "3") orderBy: Int,
         @RequestParam(required = false, defaultValue = "") cate: String
     ): String {
