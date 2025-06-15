@@ -8,30 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="62331100-7ff9-494a-81a4-8661e8cbf8eb" name="更改" comment="AiCode">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/CommentController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/CommentController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/HomeController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/HomeController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/LayoutController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/LayoutController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/VideoController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/VideoController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CategoriesDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CategoriesDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CommentsDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CommentsDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/FavoritesDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/FavoritesDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/GatherSourcesDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/GatherSourcesDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/PaginatedResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/PaginatedResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/UsersDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/UsersDto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/service/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/service/ApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +137,7 @@
       <recent name="org.vlog.web.config" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.VlogWebApplication">
+  <component name="RunManager" selected="Gradle.VlogWeb [bootJar]">
     <configuration name="VlogWeb [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -507,7 +484,7 @@
       <workItem from="1748927504703" duration="30000" />
       <workItem from="1749982522407" duration="784000" />
       <workItem from="1749987579142" duration="159000" />
-      <workItem from="1749987748317" duration="9170000" />
+      <workItem from="1749987748317" duration="9430000" />
     </task>
     <task id="LOCAL-00001" summary="AiCode">
       <option name="closed" value="true" />
@@ -549,7 +526,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748233599284</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="AiCode">
+      <option name="closed" value="true" />
+      <created>1750003259109</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1750003259109</updated>
+    </task>
+    <task id="LOCAL-00007" summary="AiCode">
+      <option name="closed" value="true" />
+      <created>1750003384602</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1750003384602</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
