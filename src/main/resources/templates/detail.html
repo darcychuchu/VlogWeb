@@ -37,9 +37,7 @@
                             </p>
                             <p id="genres-container">
                                 <b>类型: </b>
-                                <span id="genres-list">
-                                        <a th:each="genre : ${Genres}" th:href="@{/list(tag=${genre.id})}" class="text-blue-400 hover:underline" th:text="${genre.title}">类型</a>
-                                    </span>
+                                <span id="genres-list" th:text="${VideoItem.tags}"></span>
                             </p>
                             <p th:if="${VideoItem.region}" th:text="'地区: ' + ${VideoItem.region}">地区: 未知</p>
                             <p th:if="${VideoItem.language}" th:text="'语言: ' + ${VideoItem.language}">语言: 未知</p>
@@ -67,21 +65,21 @@
             </div>
 
             <!-- 选项卡导航 -->
-            <div id="gather-tabs" class="flex overflow-x-auto border-b border-gray-700 mb-4">
+            <div id="gather-tabs" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 p-2 text-xs sm:text-sm">
                 <!-- 动态生成选项卡 -->
-                <button th:each="player, stat : ${VideoItem.getVideoPlayList()}"
+                <button th:each="player, stat : ${VideoItem.gatherList}"
                         th:data-gather-id="${player.gatherId}"
                         th:data-index="${stat.index}"
                         class="tab-button px-4 py-2 font-medium whitespace-nowrap border-b-2 focus:outline-none transition-colors"
                         th:classappend="${stat.index == 0 ? 'border-yellow-400 text-yellow-400' : 'border-transparent text-gray-400 hover:text-gray-300'}">
                     <span th:text="${player.gatherTitle}">选项卡</span>
-                    <i class="text-xs text-yellow-300" th:text="'-' + ${player.playList.size()}">-10</i>
+                    <i class="text-xs text-yellow-300" th:text="'-' + ${player.playList.size()}+' / ' +${player.remarks}">-10</i>
                 </button>
             </div>
 
             <!-- 选集列表 -->
             <div class="mb-4 overflow-x-auto">
-                <div id="inline-episodes-container" class="flex space-x-2 py-2 px-1">
+                <div id="inline-episodes-container" class="grid grid-cols-5 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-4 p-2 text-xs sm:text-sm">
                     <!-- 动态加载选集 -->
                 </div>
             </div>
@@ -113,7 +111,7 @@
                     <!-- 对话框内的选项卡导航 -->
                     <div id="dialog-gather-tabs" class="flex overflow-x-auto border-b border-gray-700 mb-4">
                         <!-- 动态生成选项卡 -->
-                        <button th:each="player, stat : ${VideoItem.getVideoPlayList()}"
+                        <button th:each="player, stat : ${VideoItem.gatherList}"
                                 th:data-gather-id="${player.gatherId}"
                                 th:data-index="${stat.index}"
                                 class="tab-button px-4 py-2 font-medium whitespace-nowrap border-b-2 focus:outline-none transition-colors"
@@ -139,94 +137,15 @@
             <p class="text-gray-300 leading-relaxed" th:text="${VideoItem.description}">视频描述...</p>
         </section>
 
-        <!-- 评论区 -->
-        <section id="comments-section" class="mb-12">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">评论</h2>
-            </div>
 
-            <div id="comment-container" class="space-y-6">
-                <!-- 初始只显示前5条评论 -->
-                <div th:each="comment, commentStat : ${Comments}"
-                     th:class="${commentStat.index < 5 ? 'comment-item bg-gray-800 rounded-lg p-6' : 'comment-item bg-gray-800 rounded-lg p-6 hidden'}">
-                    <div class="flex items-center mb-4">
-                        <img class="w-10 h-10 rounded-full" alt="user avatar" src="/images/avatar.svg" loading="lazy">
-                        <div class="ml-4">
-                            <h4 class="font-medium" th:text="${comment.createdBy}">用户名</h4>
-                            <div class="flex items-center mt-1">
-                                <span class="text-gray-400 text-sm ml-2" th:text="${#dates.format(new java.util.Date(comment.createdAt), 'yyyy-MM-dd HH:mm:ss')}">评论时间</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-gray-300" th:text="${comment.description}">评论内容</p>
-                    <div th:if="${comment.attachmentId}">
-                        <img th:src="@{'/api-proxy/file/attachment/m/' + ${comment.attachmentId}}" th:alt="${comment.description}">
-                    </div>
-                </div>
-                <div th:if="${Comments == null || Comments.size() <= 0}" class="text-center py-8">
-                    <p class="text-gray-400">暂无评论</p>
-                </div>
-            </div>
 
-            <div id="load-more-comments" class="text-center mt-4" th:if="${Comments != null && Comments.size() > 5}">
-                <button id="load-more-comments-btn" class="bg-gray-700 text-white px-6 py-2 rounded-lg hover:bg-gray-600">
-                    <span>查看更多评论...</span>
-                </button>
-            </div>
-
-            <div class="text-center mt-8">
-                <div class="flex items-center justify-center">
-                    <button id="show-comment-form" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                        <span>发表评论</span>
-                    </button>
-
-                    <form id="comment-form" method="post" class="w-full max-w-xl rounded-lg px-4 pt-4 hidden">
-                        <div class="flex flex-wrap -mx-3 mb-6">
-                            <div class="w-full md:w-full px-3 mb-2 mt-2">
-                                <label class="block mb-2 text-sm text-gray-600">
-                                        <textarea class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-                                                  name="description" placeholder='请输入您的评论'
-                                                  required></textarea>
-                                </label>
-                            </div>
-                            <div class="w-full flex justify-end px-3">
-                                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                                    <span>提交评论</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- 相似推荐 -->
-        <section id="more-liked-section" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">更多相似内容</h2>
-            <div id="more-liked-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <div th:each="video : ${MoreLiked}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                    <a th:href="@{'/videos/detail/' + ${video.id}}">
-                        <img class="w-full h-64 object-cover" th:src="${video.coverUrl}" referrerpolicy="origin" th:alt="${video.title}">
-                        <div class="p-4">
-                            <h3 class="font-bold mb-2" th:text="${video.title}">视频标题</h3>
-                            <div class="flex items-center mb-2">
-                                <span class="text-yellow-400">★</span>
-                                <span class="ml-1" th:text="${video.score}">9.2</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <!-- 将API数据注入到页面中 -->
         <script th:inline="javascript">
             // 从Controller传来的动态数据
             window.videoData = {
                 videoDetail: [[${VideoItem}]],
-                actors: [[${Actors}]],
-                genres: [[${Genres}]],
-                players: [[${VideoItem.videoPlayList}]]
+                gathers: [[${VideoItem.gatherList}]]
             };
 
             // 不常变动的静态数据直接写在这里
@@ -431,10 +350,10 @@
 
                 // 初始化选项卡和播放列表
                 function initTabs() {
-                    const players = window.videoData.players;
-                    if (!players || players.length === 0) return;
+                    const gathers = window.videoData.gathers;
+                    if (!gathers || gathers.length === 0) return;
 
-                    currentGatherData = players;
+                    currentGatherData = gathers;
 
                     // 绑定选项卡点击事件
                     document.querySelectorAll('.tab-button').forEach(button => {
@@ -462,7 +381,7 @@
                     });
 
                     // 默认加载第一个gather的第一个视频
-                    const firstGather = players[0];
+                    const firstGather = gathers[0];
                     if(firstGather.playList && firstGather.playList.length > 0) {
                         initPlayer(firstGather.playList[0].playUrl);
                         document.getElementById('current-episode-title').textContent =
@@ -488,66 +407,6 @@
                     if (e.target === this) {
                         this.classList.add('hidden');
                     }
-                });
-
-                // 绑定显示评论表单按钮点击事件
-                document.getElementById('show-comment-form').addEventListener('click', function() {
-                    const form = document.getElementById('comment-form');
-                    form.classList.toggle('hidden');
-                });
-
-                // 绑定查看更多评论按钮点击事件
-                const loadMoreBtn = document.getElementById('load-more-comments-btn');
-                if (loadMoreBtn) {
-                    loadMoreBtn.addEventListener('click', function() {
-                        console.log('查看更多评论按钮被点击');
-
-                        // 显示所有隐藏的评论
-                        const hiddenComments = document.querySelectorAll('.comment-item.hidden');
-                        console.log('找到隐藏评论数量:', hiddenComments.length);
-
-                        hiddenComments.forEach(comment => {
-                            comment.classList.remove('hidden');
-                            console.log('显示评论:', comment.textContent.substring(0, 20) + '...');
-                        });
-
-                        // 隐藏"查看更多"按钮
-                        const loadMoreContainer = document.getElementById('load-more-comments');
-                        if (loadMoreContainer) {
-                            loadMoreContainer.classList.add('hidden');
-                            console.log('隐藏"查看更多"按钮');
-                        } else {
-                            console.error('未找到load-more-comments元素');
-                        }
-                    });
-                } else {
-                    console.error('未找到load-more-comments-btn元素');
-                }
-
-                // 绑定评论表单提交
-                document.getElementById('comment-form').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const formData = new FormData(this);
-
-                    fetch(`/api-proxy/comments-post/${window.videoData.videoDetail.id}/0`, {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if(data.code === "0") {
-                                // 重新加载评论
-                                fetch(`/api-proxy/comments/${window.videoData.videoDetail.id}/0`)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        // 刷新评论列表
-                                        location.reload();
-                                    });
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error submitting comment:', error);
-                        });
                 });
 
                 // 初始化

@@ -16,8 +16,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/CommentController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/CommentController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/HomeController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/HomeController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/LayoutController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/LayoutController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/VideoController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/controller/VideoController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CategoriesDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CategoriesDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CommentsDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/CommentsDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/FavoritesDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/FavoritesDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/GatherSourcesDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/GatherSourcesDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/PaginatedResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/PaginatedResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/UsersDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/dto/UsersDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/service/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/org/vlog/web/service/ApiService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +55,17 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="VlogWeb" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="VlogWeb" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="VlogWeb" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -69,6 +94,9 @@
     &quot;accountId&quot;: &quot;1d17f32f-c403-45a0-bc6c-d42900bd395a&quot;
   }
 }</component>
+  <component name="PerforceDirect.Settings">
+    <option name="CHARSET" value="无" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -80,49 +108,49 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.VlogWeb [bootJar].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.VlogWeb [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.构建 VlogWeb.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.VlogWebApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/WORK/IdeaProjects/VlogWeb/src/main/resources/templates&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;全局库&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.VlogWeb [bootJar].executor": "Run",
+    "Gradle.VlogWeb [clean].executor": "Run",
+    "Gradle.构建 VlogWeb.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.VlogWebApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/WORK/IdeaProjects/VlogWeb/src/main/kotlin/org/vlog/web/dto",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "全局库",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;kotlin-gradle-user-dirs&quot;: [
-      &quot;C:\\Users\\darcy\\.gradle&quot;
+  "keyToStringList": {
+    "kotlin-gradle-user-dirs": [
+      "C:\\Users\\darcy\\.gradle"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\WORK\IdeaProjects\VlogWeb\src\main\kotlin\org\vlog\web\dto" />
       <recent name="D:\WORK\IdeaProjects\VlogWeb\src\main\resources\templates" />
       <recent name="D:\WORK\IdeaProjects\VlogWeb\src\main\kotlin\org\vlog\web" />
       <recent name="D:\WORK\IdeaProjects\VlogWeb\docs" />
       <recent name="D:\WORK\IdeaProjects\VlogWeb\src\main\resources\static\images" />
-      <recent name="D:\WORK\IdeaProjects\VlogWeb\src\main\kotlin\org\vlog\web\model\enums" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\WORK\IdeaProjects\VlogWeb" />
@@ -132,7 +160,7 @@
       <recent name="org.vlog.web.config" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.VlogWeb [bootJar]">
+  <component name="RunManager" selected="Spring Boot.VlogWebApplication">
     <configuration name="VlogWeb [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -470,7 +498,16 @@
       <workItem from="1748159565856" duration="646000" />
       <workItem from="1748165583625" duration="751000" />
       <workItem from="1748166376603" duration="13000" />
-      <workItem from="1748233209801" duration="353000" />
+      <workItem from="1748233209801" duration="1075000" />
+      <workItem from="1748267468931" duration="644000" />
+      <workItem from="1748548230730" duration="1591000" />
+      <workItem from="1748554691301" duration="1673000" />
+      <workItem from="1748556392620" duration="18000" />
+      <workItem from="1748868786721" duration="15000" />
+      <workItem from="1748927504703" duration="30000" />
+      <workItem from="1749982522407" duration="784000" />
+      <workItem from="1749987579142" duration="159000" />
+      <workItem from="1749987748317" duration="9170000" />
     </task>
     <task id="LOCAL-00001" summary="AiCode">
       <option name="closed" value="true" />
@@ -504,7 +541,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747974212283</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="AiCode">
+      <option name="closed" value="true" />
+      <created>1748233599284</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748233599284</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

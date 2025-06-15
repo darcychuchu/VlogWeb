@@ -16,31 +16,20 @@ class HomeController(
     @GetMapping("/")
     fun index(
         model: Model,
-        @RequestParam(required = false, defaultValue = "0") typed: Int,
+        @RequestParam(required = false, defaultValue = "1") typed: Int,
         @RequestParam(required = false, defaultValue = "2025") released: Long,
-        @RequestParam(required = false, defaultValue = "3") orderBy: Int,
-        @RequestParam(required = false, defaultValue = "") cate: String
+        @RequestParam(required = false, defaultValue = "2") orderBy: Int
     ): String {
-        ///logger.info("Accessing home page with typed=$typed, released=$released, orderBy=$orderBy, cate=$cate")
-
         try {
-            // 获取视频列表
-            val videoList = apiService.getVideoList(typed, released, orderBy, cate)
+            val videoList = apiService.getVideoList(typed, released, orderBy)
             model.addAttribute("videoList", videoList)
 
-            // 获取分类列表
-            val categories = apiService.getCategories(typed, cate)
+            val categories = apiService.getCategories(typed).sortedBy { it.orderSort }
             model.addAttribute("categories", categories)
 
-            // 获取地址列表
-            val addresses = apiService.getAddresses()
-            model.addAttribute("addresses", addresses)
-
-            // 添加筛选参数
             model.addAttribute("typed", typed)
             model.addAttribute("released", released)
             model.addAttribute("orderBy", orderBy)
-            model.addAttribute("cate", cate)
 
             return "index"
         } catch (e: Exception) {
