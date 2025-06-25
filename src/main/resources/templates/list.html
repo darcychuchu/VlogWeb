@@ -85,6 +85,12 @@
                                 <a th:href="@{/list(typed=${typed},page=${page},size=${size},year=${year},orderBy=3,cate=${cate})}"
                                    class="px-2 py-1 rounded text-sm"
                                    th:classappend="${orderBy == 3 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">推荐</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},year=${year},orderBy=4,cate=${cate})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${orderBy == 4 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">更新时间</a>
+                                <a th:href="@{/list(typed=${typed},page=${page},size=${size},year=${year},orderBy=5,cate=${cate})}"
+                                   class="px-2 py-1 rounded text-sm"
+                                   th:classappend="${orderBy == 5 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">创建时间</a>
                             </div>
                         </div>
                     </div>
