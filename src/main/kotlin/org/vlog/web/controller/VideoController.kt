@@ -72,6 +72,8 @@ class VideoController(
             } else {
                 null
             }
+            currentCategory?.categoryList = if (currentCategory !=null && currentCategory.categoryList != null)currentCategory.categoryList?.sortedByDescending { it.orderSort } else null
+
             model.addAttribute("paginatedVideos", paginatedVideos)
             model.addAttribute("categories", categories)  // 当前类型的分类列表
             model.addAttribute("currentType", currentType)  // 当前选中的类型

@@ -27,7 +27,7 @@ spring:
 api:
   base-url: http://127.0.0.1:8199/api/json/v2
   image-url: http://127.0.0.1:8199
-  #base-url: https://api.66log.com/api/json/v1
+  #base-url: https://66log.com/api/json/v2
   #image-url: http://127.0.0.1:8082
 
 #logging:
