@@ -187,8 +187,11 @@
             <!-- 已登录状态 -->
             <div th:if="${session.user != null}" class="px-4">
                 <div class="flex items-center py-2 border-b border-gray-700">
-                    <img th:if="${session.user.avatar}" th:src="${session.user.avatar}" class="h-8 w-8 rounded-full object-cover" alt="用户头像">
-                    <img th:unless="${session.user.avatar}" th:src="@{/images/default-avatar.svg}" class="h-8 w-8 rounded-full object-cover" alt="默认头像">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="h-8 w-8 rounded-full object-cover">
+                        <circle cx="100" cy="100" r="100" fill="#4B5563"/>
+                        <circle cx="100" cy="85" r="30" fill="#E5E7EB"/>
+                        <path d="M50,140 C50,110 150,110 150,140 L150,150 C150,180 50,180 50,150 Z" fill="#E5E7EB"/>
+                    </svg>
                     <span class="ml-2 text-gray-300" th:text="${session.user.nickName}">用户昵称</span>
                 </div>
                 <div class="py-2 space-y-2">
