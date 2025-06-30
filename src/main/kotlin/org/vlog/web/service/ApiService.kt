@@ -62,26 +62,28 @@ class ApiService(
 
 
     fun getVideoList(
-        typed: Int = 0,
-        released: Long = 0,
+        typed: Int = 1,
+        page: Int = 1,
+        size: Int = 24,
+        year: Long = 2025,
         orderBy: Int = 3,
         token: String? = null
     ): List<VideoListDto>? {
         try {
             val url = if (token.isNullOrEmpty()) {
-                "$apiBaseUrl/videos/list?typed=$typed&released=$released&order_by=$orderBy"
+                "$apiBaseUrl/videos/filter?typed=$typed&page=$page&size=$size&year=$year&order_by=$orderBy"
             } else {
-                "$apiBaseUrl/videos/list?typed=$typed&released=$released&order_by=$orderBy&token=$token"
+                "$apiBaseUrl/videos/filter?typed=$typed&page=$page&size=$size&year=$year&order_by=$orderBy&token=$token"
             }
 
-            val responseType = object : ParameterizedTypeReference<ApiResponse<List<VideoListDto>>>() {}
-            val response = restTemplate.exchange<ApiResponse<List<VideoListDto>>>(
+            val responseType = object : ParameterizedTypeReference<ApiResponse<PaginatedResponse<VideoListDto>>>() {}
+            val response = restTemplate.exchange<ApiResponse<PaginatedResponse<VideoListDto>>>(
                 url,
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
                 responseType
             )
-            return response.body?.data
+            return response.body?.data?.items
         } catch (e: RestClientException) {
             return null
         } catch (e: Exception) {

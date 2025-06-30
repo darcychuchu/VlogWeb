@@ -17,18 +17,18 @@ class HomeController(
     fun index(
         model: Model,
         @RequestParam(required = false, defaultValue = "1") typed: Int,
-        @RequestParam(required = false, defaultValue = "2025") released: Long,
+        @RequestParam(required = false, defaultValue = "2025") year: Long,
         @RequestParam(required = false, defaultValue = "2") orderBy: Int
     ): String {
         try {
-            val videoList = apiService.getVideoList(typed, released, orderBy)
+            val videoList = apiService.getVideoList(typed, 1,24,year, orderBy)
             model.addAttribute("videoList", videoList)
 
             val categories = apiService.getCategories(typed).sortedBy { it.orderSort }
             model.addAttribute("categories", categories)
 
             model.addAttribute("typed", typed)
-            model.addAttribute("released", released)
+            model.addAttribute("year", year)
             model.addAttribute("orderBy", orderBy)
 
             return "index"

@@ -60,10 +60,10 @@
                         <span class="text-gray-400 mr-2">类型:</span>
                         <div class="inline-flex flex-wrap gap-2 mt-2">
                             <a href="/" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 0 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">全部</a>
-                            <a th:href="@{/list(typed=1,released=${released},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 1 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">电影</a>
-                            <a th:href="@{/list(typed=2,released=${released},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 2 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">电视剧</a>
-                            <a th:href="@{/list(typed=3,released=${released},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 3 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">综艺</a>
-                            <a th:href="@{/list(typed=4,released=${released},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 4 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">动漫</a>
+                            <a th:href="@{/list(typed=1,year=${year},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 1 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">电影</a>
+                            <a th:href="@{/list(typed=2,year=${year},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 2 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">电视剧</a>
+                            <a th:href="@{/list(typed=3,year=${year},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 3 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">综艺</a>
+                            <a th:href="@{/list(typed=4,year=${year},orderBy=${orderBy})}" class="px-2 py-1 rounded text-sm" th:classappend="${typed == 4 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">动漫</a>
                         </div>
                     </div>
 
@@ -71,11 +71,11 @@
                     <div>
                         <span class="text-gray-400 mr-2">年份:</span>
                         <div class="inline-flex flex-wrap gap-2 mt-2">
-                            <a href="/" class="px-2 py-1 rounded text-sm" th:classappend="${released == 0 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">全部</a>
-                            <a th:href="@{/list(typed=${typed},released=2025,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${released == 2025 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2025</a>
-                            <a th:href="@{/list(typed=${typed},released=2024,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${released == 2024 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2024</a>
-                            <a th:href="@{/list(typed=${typed},released=2023,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${released == 2023 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2023</a>
-                            <a th:href="@{/list(typed=${typed},released=2022,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${released == 2022 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2022</a>
+                            <a href="/" class="px-2 py-1 rounded text-sm" th:classappend="${year == 0 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">全部</a>
+                            <a th:href="@{/list(typed=${typed},year=2025,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${year == 2025 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2025</a>
+                            <a th:href="@{/list(typed=${typed},year=2024,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${year == 2024 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2024</a>
+                            <a th:href="@{/list(typed=${typed},year=2023,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${year == 2023 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2023</a>
+                            <a th:href="@{/list(typed=${typed},year=2022,orderBy=${orderBy},cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${year == 2022 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">2022</a>
                         </div>
                     </div>
 
@@ -83,13 +83,26 @@
                     <div>
                         <span class="text-gray-400 mr-2">排序:</span>
                         <div class="inline-flex flex-wrap gap-2 mt-2">
-                            <a th:href="@{/list(typed=${typed},released=${released},orderBy=3,cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${orderBy == 3 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">最新</a>
-                            <a th:href="@{/list(typed=${typed},released=${released},orderBy=2,cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${orderBy == 2 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">最热</a>
-                            <a th:href="@{/list(typed=${typed},released=${released},orderBy=1,cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${orderBy == 1 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">评分</a>
+                            <a th:href="@{/list(typed=${typed},year=${year},orderBy=3,cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${orderBy == 3 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">最新</a>
+                            <a th:href="@{/list(typed=${typed},year=${year},orderBy=2,cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${orderBy == 2 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">最热</a>
+                            <a th:href="@{/list(typed=${typed},year=${year},orderBy=1,cate=${cate})}" class="px-2 py-1 rounded text-sm" th:classappend="${orderBy == 1 ? 'bg-yellow-500 text-black' : 'bg-gray-700 text-white hover:bg-gray-600'}">评分</a>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1164040947696496"
+                    crossorigin="anonymous"></script>
+            <!-- banner-card -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1164040947696496"
+                 data-ad-slot="9570042371"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
 
             <!-- 视频列表 -->
             <div class="mb-8">
