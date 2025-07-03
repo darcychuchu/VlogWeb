@@ -180,6 +180,31 @@ class ApiService(
         }
     }
 
+
+
+    /**
+     * AppVersion App版本
+     * @return 结果
+     */
+    fun getAppVersion(): AppVersionDto? {
+        try {
+            val url = "$apiBaseUrl/app/version"
+
+            val responseType = object : ParameterizedTypeReference<ApiResponse<AppVersionDto>>() {}
+            val response = restTemplate.exchange<ApiResponse<AppVersionDto>>(
+                url,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                responseType
+            )
+            return response.body?.data
+        } catch (e: RestClientException) {
+            return null
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
 //    /**
 //     * 发布评论
 //     * @param videoId 视频ID

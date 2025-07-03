@@ -45,8 +45,11 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold text-black">下载我们的Android应用</h3>
-                        <p class="text-black/80">随时随地观看高清视频</p>
+                        <h3 class="text-xl font-bold text-black">下载Android应用</h3>
+                        <p class="text-black/80" th:if="${appVersion}">
+                            <b th:text="'Version: '+${appVersion.versionName}+' / '"></b>
+                            <span th:text="${appVersion.description}"></span>
+                        </p>
                     </div>
                 </div>
                 <a href="https://18log.com/app-release.apk" target="_blank" class="bg-black text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-800 transition-colors">立即下载</a>

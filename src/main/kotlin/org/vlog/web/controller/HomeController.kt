@@ -30,6 +30,7 @@ class HomeController(
             model.addAttribute("typed", typed)
             model.addAttribute("year", year)
             model.addAttribute("orderBy", orderBy)
+            model.addAttribute("appVersion", apiService.getAppVersion())
 
             return "index"
         } catch (e: Exception) {
