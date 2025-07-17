@@ -120,6 +120,35 @@ class ApiService(
 
 
 
+
+    /**
+     * SourceDetail 视频详情
+     * @param id 视频ID
+     * @param token 用户token（可选）
+     * @return 搜索结果列表
+     */
+    fun getSourceDetail(id: String, token: String? = null): VideoDetailDto? {
+        try {
+            val responseType = object : ParameterizedTypeReference<ApiResponse<VideoDetailDto>>() {}
+            val url = if (token.isNullOrEmpty()) {
+                "$apiBaseUrl/videos/sources/detail/$id"
+            } else {
+                "$apiBaseUrl/videos/sources/detail/$id?token=$token"
+            }
+            val response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                responseType
+            )
+            return response.body?.data
+        } catch (e: RestClientException) {
+            return null
+        }
+    }
+
+
+
     /**
      * Categories 视频分类
      * @param typed 类型

@@ -14,6 +14,30 @@ class VideoController(
     private val apiService: ApiService,
 ) {
 
+
+
+
+    @GetMapping("/sources/detail/{id}", "/sources/{id}")
+    fun sourcesDetail(
+        @PathVariable id: String,
+        model: Model,
+        session: HttpSession
+    ): String {
+        try {
+            val user = session.getAttribute("user") as? UsersDto
+            val token = user?.accessToken
+            val videoDetail = apiService.getSourceDetail(id=id, token=token) ?: return "error"
+            model.addAttribute("VideoItem", videoDetail)
+            model.addAttribute("appVersion", apiService.getAppVersion())
+            return "detail"
+        } catch (e: Exception) {
+            model.addAttribute("errorMessage", "加载视频详情失败，请稍后再试")
+            model.addAttribute("errorDetails", "系统内部错误")
+            model.addAttribute("errorCode", "500")
+            return "error"
+        }
+    }
+
     @GetMapping("/videos/detail/{id}", "/detail/{id}")
     fun detail(
         @PathVariable id: String,
@@ -25,6 +49,7 @@ class VideoController(
             val token = user?.accessToken
             val videoDetail = apiService.getVideoDetail(id=id, token=token) ?: return "error"
             model.addAttribute("VideoItem", videoDetail)
+            model.addAttribute("appVersion", apiService.getAppVersion())
             return "detail"
         } catch (e: Exception) {
             model.addAttribute("errorMessage", "加载视频详情失败，请稍后再试")
@@ -85,6 +110,7 @@ class VideoController(
             model.addAttribute("year", year)
             model.addAttribute("orderBy", orderBy)
             model.addAttribute("cate", cate)
+            model.addAttribute("appVersion", apiService.getAppVersion())
             return "list"
         } catch (e: Exception) {
             model.addAttribute("errorMessage", "加载视频列表失败，请稍后再试")
