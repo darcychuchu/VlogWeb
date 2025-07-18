@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.vlog.web"
-version = "0.0.42-SERVER-8091"
+version = "0.0.45-SERVER-8091"
 
 java {
     toolchain {

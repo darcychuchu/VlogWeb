@@ -114,8 +114,9 @@
                     <div th:if="${session.user != null}" class="relative">
                         <div class="flex items-center">
                             <button id="user-menu-button" class="flex items-center text-sm focus:outline-none">
-                                <img th:if="${session.user.avatar}" th:src="${session.user.avatar}" class="h-8 w-8 rounded-full object-cover" alt="用户头像">
-                                <img th:unless="${session.user.avatar}" th:src="@{/images/default-avatar.svg}" class="h-8 w-8 rounded-full object-cover" alt="默认头像">
+                                <svg class="h-8 w-8 rounded-full object-cover" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                                    <path class="text-gray-300" d="M628.736 528.896A416 416 0 0 1 928 928H96a415.872 415.872 0 0 1 299.264-399.104L512 704l116.736-175.104zM720 304a208 208 0 1 1-416 0 208 208 0 0 1 416 0z" />
+                                </svg>
                                 <span class="ml-2 text-gray-300" th:text="${session.user.nickName}">用户昵称</span>
                                 <svg class="ml-1 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -187,10 +188,8 @@
             <!-- 已登录状态 -->
             <div th:if="${session.user != null}" class="px-4">
                 <div class="flex items-center py-2 border-b border-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="h-8 w-8 rounded-full object-cover">
-                        <circle cx="100" cy="100" r="100" fill="#4B5563"/>
-                        <circle cx="100" cy="85" r="30" fill="#E5E7EB"/>
-                        <path d="M50,140 C50,110 150,110 150,140 L150,150 C150,180 50,180 50,150 Z" fill="#E5E7EB"/>
+                    <svg class="h-8 w-8 rounded-full object-cover" fill="currentColor" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                        <path class="text-gray-300" d="M628.736 528.896A416 416 0 0 1 928 928H96a415.872 415.872 0 0 1 299.264-399.104L512 704l116.736-175.104zM720 304a208 208 0 1 1-416 0 208 208 0 0 1 416 0z" />
                     </svg>
                     <span class="ml-2 text-gray-300" th:text="${session.user.nickName}">用户昵称</span>
                 </div>

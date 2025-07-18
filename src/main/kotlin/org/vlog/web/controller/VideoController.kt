@@ -41,13 +41,14 @@ class VideoController(
     @GetMapping("/videos/detail/{id}", "/detail/{id}")
     fun detail(
         @PathVariable id: String,
+        @RequestParam(defaultValue = "1") typed: Int,
         model: Model,
         session: HttpSession
     ): String {
         try {
             val user = session.getAttribute("user") as? UsersDto
             val token = user?.accessToken
-            val videoDetail = apiService.getVideoDetail(id=id, token=token) ?: return "error"
+            val videoDetail = apiService.getVideoDetail(id=id,typed=typed,token=token) ?: return "error"
             model.addAttribute("VideoItem", videoDetail)
             model.addAttribute("appVersion", apiService.getAppVersion())
             return "detail"
