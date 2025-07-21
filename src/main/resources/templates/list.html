@@ -27,7 +27,7 @@
 
 
                     <!-- 分类筛选 -->
-                    <div class="filter-row" th:if="${currentType}">
+                    <div class="filter-row" th:if="${currentType.getCategoryList().size > 0}">
                         <div class="flex items-center">
                             <span class="text-gray-400 mr-2 lg:w-16 flex-shrink-0">分类:</span>
                             <div class="flex flex-wrap gap-2">
@@ -96,21 +96,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1164040947696496"
-                    crossorigin="anonymous"></script>
-            <!-- banner -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1164040947696496"
-                 data-ad-slot="3579349096"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
 
             <!-- 视频列表 -->
             <div class="mb-8">

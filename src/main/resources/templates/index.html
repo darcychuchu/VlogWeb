@@ -17,7 +17,8 @@
                                     <div class="relative w-full h-full">
                                         <img th:src="${video.coverUrl}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${video.title}">
                                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                                        <div class="absolute bottom-0 left-0 p-6">
+                                        <div class="absolute bottom-10 left-10 p-6">
+                                            <img th:src="${video.coverUrl}" referrerpolicy="origin" class="w-full h-96 object-cover" th:alt="${video.title}">
                                             <h2 class="text-3xl font-bold text-white mb-2" th:text="${video.title}">视频标题</h2>
                                             <div class="flex items-center">
                                                 <span class="bg-yellow-500 text-black px-2 py-1 rounded text-sm font-bold mr-2" th:text="${video.score}">9.2</span>
@@ -93,19 +94,6 @@
                     </div>
                 </div>
             </div>
-
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1164040947696496"
-                    crossorigin="anonymous"></script>
-            <!-- banner-card -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1164040947696496"
-                 data-ad-slot="9570042371"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
 
             <!-- 视频列表 -->
             <div class="mb-8">

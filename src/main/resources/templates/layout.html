@@ -207,8 +207,9 @@
     <div th:replace="${content}">
         <!-- 页面内容将在这里替换 -->
     </div>
+</main>
 
-
+<div th:fragment="adsbygoogle" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1164040947696496"
             crossorigin="anonymous"></script>
     <!-- banner-card -->
@@ -221,10 +222,11 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-</main>
+</div>
 
 <!-- 页脚 -->
 <footer th:fragment="footer" class="bg-gray-900 mt-12">
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex flex-col md:flex-row justify-between">
             <div class="mb-6 md:mb-0">
@@ -279,6 +281,7 @@
             <!-- 页面内容将在这里替换 -->
         </div>
     </main>
+    <div th:replace="~{layout :: adsbygoogle}"></div>
     <div th:replace="~{layout :: footer}"></div>
 
     <!-- 脚本处理 -->
