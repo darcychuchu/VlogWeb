@@ -12,17 +12,17 @@
                     <!-- 轮播图内容 -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide" th:each="video, stat : ${videoList}" th:if="${videoList != null && stat.index < 5}">
-                                <a th:href="@{'/videos/detail/' + ${video.id}}">
+                            <div class="swiper-slide" th:each="row, stat : ${movieNewList}" th:if="${movieNewList != null}">
+                                <a th:href="@{'/videos/detail/' + ${row.id}}">
                                     <div class="relative w-full h-full">
-                                        <img th:src="${video.coverUrl}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${video.title}">
+                                        <img th:src="@{'https://66log.com' + ${row.coverUrl}}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${row.title}">
                                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                                         <div class="absolute bottom-10 left-10 p-6">
-                                            <img th:src="${video.coverUrl}" referrerpolicy="origin" class="w-full h-96 object-cover" th:alt="${video.title}">
-                                            <h2 class="text-3xl font-bold text-white mb-2" th:text="${video.title}">视频标题</h2>
+                                            <img th:src="@{'https://66log.com' + ${row.coverUrl}}" referrerpolicy="origin" class="w-full h-96 object-cover" th:alt="${row.title}">
+                                            <h2 class="text-3xl font-bold text-white mb-2" th:text="${row.title}">视频标题</h2>
                                             <div class="flex items-center">
-                                                <span class="bg-yellow-500 text-black px-2 py-1 rounded text-sm font-bold mr-2" th:text="${video.score}">9.2</span>
-                                                <span class="text-gray-300" th:text="${video.tags}">导演</span>
+                                                <span class="bg-yellow-500 text-black px-2 py-1 rounded text-sm font-bold mr-2" th:text="${row.score}">9.2</span>
+                                                <span class="text-gray-300" th:text="${row.tags}">导演</span>
                                             </div>
                                         </div>
                                     </div>
@@ -95,29 +95,157 @@
                 </div>
             </div>
 
+
+
+
+
             <!-- 视频列表 -->
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold mb-4">推荐视频</h2>
+            <div class="mb-8" th:if="${movieNewList.size() > 0}">
+                <h2 class="text-2xl font-bold mb-4">最新上映</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <div th:each="video : ${videoList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <a th:href="@{'/videos/detail/' + ${video.id}}">
+                    <div th:each="row : ${movieNewList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <a th:href="@{'/videos/detail/' + ${row.id}}">
                             <div class="relative">
-                                <img th:src="${video.coverUrl}" class="w-full h-48 object-cover" referrerpolicy="origin" th:alt="${video.title}">
-                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${video.score}">9.2</div>
-                                <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${video.remarks}">remarks</div>
+                                <img th:src="@{'https://66log.com' + ${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
+                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
+                                <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.remarks}">remarks</div>
                             </div>
                             <div class="p-3">
-                                <h3 class="font-bold mb-1 truncate" th:text="${video.title}">视频标题</h3>
+                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}">视频标题</h3>
+
                             </div>
                         </a>
                     </div>
                 </div>
                 <div class="mt-4 text-center">
-                    <a th:href="@{/list(typed=${typed},cate=${cate})}" class="inline-block bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                    <a th:href="@{/list(typed=2)}" class="inline-block bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
                         查看更多
                     </a>
                 </div>
             </div>
+
+            <!-- 视频列表 -->
+            <div class="mb-8" th:if="${animationList.size() > 0}">
+                <h2 class="text-2xl font-bold mb-4">动漫热榜</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div th:each="row : ${animationList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                            <div class="relative">
+                                <img th:src="@{'https://66log.com' + ${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
+                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
+                                <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.remarks}">remarks</div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}"></h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <a th:href="@{/list(typed=3)}" class="inline-block bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        查看更多
+                    </a>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!-- 视频列表 -->
+            <div class="mb-8" th:if="${tvChineseList.size() > 0}">
+                <h2 class="text-2xl font-bold mb-4">热播国剧</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div th:each="row : ${tvChineseList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                            <div class="relative">
+                                <img th:src="@{'https://66log.com' + ${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
+                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
+                                <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.remarks}">remarks</div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}">视频标题</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <a th:href="@{/list(typed=2)}" class="inline-block bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        查看更多
+                    </a>
+                </div>
+            </div>
+            <!-- 视频列表 -->
+            <div class="mb-8" th:if="${tvKoreanList.size() > 0}">
+                <h2 class="text-2xl font-bold mb-4">热播韩剧</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div th:each="row : ${tvKoreanList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                            <div class="relative">
+                                <img th:src="@{'https://66log.com' + ${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
+                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
+                                <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.remarks}">remarks</div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}">视频标题</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <a th:href="@{/list(typed=2)}" class="inline-block bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        查看更多
+                    </a>
+                </div>
+            </div>
+            <!-- 视频列表 -->
+            <div class="mb-8" th:if="${tvJapaneseList.size() > 0}">
+                <h2 class="text-2xl font-bold mb-4">热播日剧</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div th:each="row : ${tvJapaneseList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                            <div class="relative">
+                                <img th:src="@{'https://66log.com' + ${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
+                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
+                                <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.remarks}">remarks</div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}">视频标题</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <a th:href="@{/list(typed=2)}" class="inline-block bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        查看更多
+                    </a>
+                </div>
+            </div>
+            <!-- 视频列表 -->
+            <div class="mb-8" th:if="${tvAmericanList.size() > 0}">
+                <h2 class="text-2xl font-bold mb-4">热播美剧</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div th:each="row : ${tvAmericanList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                            <div class="relative">
+                                <img th:src="@{'https://66log.com' + ${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
+                                <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
+                                <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.remarks}">remarks</div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}">视频标题</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <a th:href="@{/list(typed=2)}" class="inline-block bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                        查看更多
+                    </a>
+                </div>
+            </div>
+
 
             <!-- 将API数据注入到页面中 -->
             <script th:inline="javascript">

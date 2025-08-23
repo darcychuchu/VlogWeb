@@ -15,37 +15,36 @@ import org.springframework.web.client.RestTemplate
 ///@CacheConfig(cacheNames = ["apiProxy"])
 class ApiProxyService(
     private val restTemplate: RestTemplate,
-    @Value("\${api.base-url}") private val apiBaseUrl: String,
-    @Value("\${api.image-url}") private val apiImageUrl: String
+    @Value("\${api.base-url}") private val apiBaseUrl: String
 ) {
     //private val logger = LoggerFactory.getLogger(ApiProxyService::class.java)
 
     ///@Cacheable(key = "#path + #queryString", unless = "#result.statusCode.is2xxSuccessful == false")
     fun proxyGet(path: String, queryString: String): ResponseEntity<Any> {
         // 处理图片路径特殊情况
-        if (path.contains("/file/attachments/image/")) {
-            // 图片URL直接访问基础URL，不需要api/json/v1/videos前缀
-            // 根据用户提供的正确图片URL格式
-            val imageUrl = "${apiImageUrl}$path$queryString"
-            //logger.info("Proxying image request to: $imageUrl")
-
-            try {
-                // 使用RestTemplate的getForEntity方法获取字节数组响应
-                val response = restTemplate.getForEntity(imageUrl, ByteArray::class.java)
-                ///logger.info("Image response received: ${response.statusCode}, content type: ${response.headers.contentType}")
-                return ResponseEntity.status(response.statusCode)
-                    .headers(response.headers)
-                    .body(response.body)
-            } catch (e: Exception) {
-                //logger.error("Error proxying image request to $imageUrl: ${e.message}")
-                // 如果图片请求出错，返回一个空的图片响应
-                val headers = HttpHeaders()
-                headers.contentType = MediaType.IMAGE_JPEG
-                return ResponseEntity.ok().headers(headers).body(ByteArray(0))
-            }
-        }
-
-        // 处理其他API请求
+//        if (path.contains("/file/attachments/image/")) {
+//            // 图片URL直接访问基础URL，不需要api/json/v1/videos前缀
+//            // 根据用户提供的正确图片URL格式
+//            val imageUrl = "${apiImageUrl}$path$queryString"
+//            //logger.info("Proxying image request to: $imageUrl")
+//
+//            try {
+//                // 使用RestTemplate的getForEntity方法获取字节数组响应
+//                val response = restTemplate.getForEntity(imageUrl, ByteArray::class.java)
+//                ///logger.info("Image response received: ${response.statusCode}, content type: ${response.headers.contentType}")
+//                return ResponseEntity.status(response.statusCode)
+//                    .headers(response.headers)
+//                    .body(response.body)
+//            } catch (e: Exception) {
+//                //logger.error("Error proxying image request to $imageUrl: ${e.message}")
+//                // 如果图片请求出错，返回一个空的图片响应
+//                val headers = HttpHeaders()
+//                headers.contentType = MediaType.IMAGE_JPEG
+//                return ResponseEntity.ok().headers(headers).body(ByteArray(0))
+//            }
+//        }
+//
+//        // 处理其他API请求
         val apiPath = if (path.startsWith("/file/")) {
             // 如果是文件路径，则不需要添加videos前缀
             path

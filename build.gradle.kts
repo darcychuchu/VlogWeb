@@ -1,12 +1,12 @@
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
-    id("org.springframework.boot") version "3.4.4"
+    id("org.springframework.boot") version "3.4.6"
     id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "org.vlog.web"
-version = "0.0.45-SERVER-8091"
+version = "0.1.08-SERVER-8091"
 
 java {
     toolchain {

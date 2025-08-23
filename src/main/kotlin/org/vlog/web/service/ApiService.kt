@@ -7,6 +7,7 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 
@@ -88,6 +89,42 @@ class ApiService(
             return null
         } catch (e: Exception) {
             return null
+        }
+    }
+
+
+    fun getVideoCharts(
+        typed: Int = 0,
+        page: Int = 0,
+        size: Int = 12,
+        state: Int = 0,
+        valued: Int = 0,
+        cate: String? = null,
+        title: String? = null,
+        orderBy: Int = 0,
+        createdAt: Long = 0L,
+        token: String? = null
+    ): List<VideoListDto> {
+        try {
+            val url = if (token.isNullOrEmpty()) {
+                "$apiBaseUrl/videos/charts?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&cate=$cate&title=$title&created_at=$createdAt&order_by=$orderBy"
+            } else {
+                "$apiBaseUrl/videos/charts?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&cate=$cate&title=$title&created_at=$createdAt&order_by=$orderBy&token=$token"
+            }
+
+
+            val responseType = object : ParameterizedTypeReference<ApiResponse<List<VideoListDto>>>() {}
+            val response = restTemplate.exchange<ApiResponse<List<VideoListDto>>>(
+                url,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                responseType
+            )
+            return response.body?.data ?: emptyList()
+        } catch (e: RestClientException) {
+            return emptyList()
+        } catch (e: Exception) {
+            return emptyList()
         }
     }
 
