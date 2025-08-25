@@ -18,7 +18,7 @@
                                         <img th:src="@{'https://66log.com' + ${row.coverUrl}}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${row.title}">
                                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                                         <div class="absolute bottom-10 left-10 p-6">
-                                            <img th:src="@{'https://66log.com' + ${row.coverUrl}}" referrerpolicy="origin" class="w-full h-96 object-cover" th:alt="${row.title}">
+                                            <img th:src="@{'https://66log.com' + ${row.coverUrl}}" referrerpolicy="origin" class="w-72 h-auto object-cover" th:alt="${row.title}">
                                             <h2 class="text-3xl font-bold text-white mb-2" th:text="${row.title}">视频标题</h2>
                                             <div class="flex items-center">
                                                 <span class="bg-yellow-500 text-black px-2 py-1 rounded text-sm font-bold mr-2" th:text="${row.score}">9.2</span>
