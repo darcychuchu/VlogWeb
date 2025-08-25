@@ -21,10 +21,8 @@ class HomeController(
         @RequestParam(required = false, defaultValue = "2") orderBy: Int
     ): String {
         try {
-            val videoList = apiService.getVideoList(typed, 1,24,year, orderBy)
-            model.addAttribute("videoList", videoList)
-
-
+//            val videoList = apiService.getVideoList(typed, 1,24,year, orderBy)
+//            model.addAttribute("videoList", videoList)
 
             val createdTime = Instant.now().toEpochMilli().div(1000).minus( 604800 )
 
@@ -71,14 +69,10 @@ class HomeController(
                 cate = "d1f0f23d-4913-44b2-85d0-f89d41b1baec",
                 createdAt = createdTime))
 
-
             model.addAttribute("animationList", apiService.getVideoCharts(
                 typed = 3,
                 state = 1,
                 createdAt = createdTime))
-
-
-
 
             val categories = apiService.getCategories(typed).sortedBy { it.orderSort }
             model.addAttribute("categories", categories)

@@ -106,13 +106,16 @@ class ApiService(
         token: String? = null
     ): List<VideoListDto> {
         try {
-            val url = if (token.isNullOrEmpty()) {
-                "$apiBaseUrl/videos/charts?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&cate=$cate&title=$title&created_at=$createdAt&order_by=$orderBy"
-            } else {
-                "$apiBaseUrl/videos/charts?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&cate=$cate&title=$title&created_at=$createdAt&order_by=$orderBy&token=$token"
+            var url = "$apiBaseUrl/videos/charts?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&created_at=$createdAt&order_by=$orderBy"
+            if (!cate.isNullOrEmpty()) {
+                url = "${url}&cate=$cate"
             }
-
-
+            if (!title.isNullOrEmpty()) {
+                url = "${url}&title=$title"
+            }
+            if (!token.isNullOrEmpty()) {
+                url = "${url}&token=$token"
+            }
             val responseType = object : ParameterizedTypeReference<ApiResponse<List<VideoListDto>>>() {}
             val response = restTemplate.exchange<ApiResponse<List<VideoListDto>>>(
                 url,

@@ -123,9 +123,11 @@
                 </div>
             </div>
 
+
+
             <!-- 视频列表 -->
             <div class="mb-8" th:if="${animationList.size() > 0}">
-                <h2 class="text-2xl font-bold mb-4">动漫热榜</h2>
+                <h2 class="text-2xl font-bold mb-4">最新动漫</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${animationList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                         <a th:href="@{'/videos/detail/' + ${row.id}}">
@@ -135,7 +137,8 @@
                                 <div class="absolute bottom-0 left-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.remarks}">remarks</div>
                             </div>
                             <div class="p-3">
-                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}"></h3>
+                                <h3 class="font-bold mb-1 truncate" th:text="${row.title}">视频标题</h3>
+
                             </div>
                         </a>
                     </div>
@@ -146,10 +149,6 @@
                     </a>
                 </div>
             </div>
-
-
-
-
 
 
             <!-- 视频列表 -->
