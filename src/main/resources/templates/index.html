@@ -12,7 +12,7 @@
                     <!-- 轮播图内容 -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide" th:each="row, stat : ${movieNewList}" th:if="${movieNewList != null}">
+                            <div class="swiper-slide" th:each="row, stat : ${movieHotList}" th:if="${movieHotList != null}">
                                 <a th:href="@{'/videos/detail/' + ${row.id}}">
                                     <div class="relative w-full h-full">
                                         <img th:src="@{'https://66log.com' + ${row.coverUrl}}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${row.title}">
@@ -94,7 +94,6 @@
                     </div>
                 </div>
             </div>
-
 
 
 
@@ -245,19 +244,6 @@
                     </a>
                 </div>
             </div>
-
-
-            <!-- 将API数据注入到页面中 -->
-            <script th:inline="javascript">
-                // 从Controller传来的动态数据
-                window.videoData = {
-                    videoList: [[${videoList}]],
-                    categories: [[${categories}]],
-                    typed: [[${typed}]],
-                    released: [[${released}]],
-                    orderBy: [[${orderBy}]]
-                };
-            </script>
 
             <!-- 引入Swiper轮播图 -->
             <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />

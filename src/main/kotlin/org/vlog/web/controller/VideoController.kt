@@ -36,7 +36,7 @@ class VideoController(
         }
     }
 
-    @GetMapping("/list")
+    @GetMapping("/list","/filter")
     fun list(
         model: Model,
         @RequestParam(required = false, defaultValue = "0") typed: Int,
