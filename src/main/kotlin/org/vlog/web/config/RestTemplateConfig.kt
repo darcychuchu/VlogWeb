@@ -26,8 +26,8 @@ class RestTemplateConfig {
         return HttpClientBuilder.create()
             .setDefaultRequestConfig(
                 RequestConfig.custom()
-                    .setConnectionRequestTimeout(Timeout.ofSeconds(3))
-                    .setResponseTimeout(Timeout.ofSeconds(60))
+                    .setConnectionRequestTimeout(Timeout.ofSeconds(5))
+                    .setResponseTimeout(Timeout.ofSeconds(10))
                     .build()
             )
             .setConnectionManager(

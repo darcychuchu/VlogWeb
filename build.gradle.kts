@@ -6,11 +6,11 @@ plugins {
 }
 
 group = "org.vlog.web"
-version = "0.1.44-SERVER-8091"
+version = "0.1.44-SERVER-8091-JDK21"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 

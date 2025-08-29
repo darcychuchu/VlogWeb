@@ -43,7 +43,7 @@ class VideoController(
         @RequestParam(required = false, defaultValue = "1") page: Int = 1,
         @RequestParam(required = false, defaultValue = "24") size: Int = 24,
         @RequestParam(required = false, defaultValue = "0") year: Long = 0,
-        @RequestParam(required = false, defaultValue = "2") orderBy: Int = 2,
+        @RequestParam(required = false, defaultValue = "5") orderBy: Int = 5,
         @RequestParam(required = false, defaultValue = "") cate: String = "",
         session: HttpSession
     ): String {
