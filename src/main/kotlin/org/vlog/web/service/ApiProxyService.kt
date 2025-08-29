@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate
 ///@CacheConfig(cacheNames = ["apiProxy"])
 class ApiProxyService(
     private val restTemplate: RestTemplate,
-    @Value("\${api.base-url}") private val apiBaseUrl: String
+    @field:Value("\${api.base-url}") private val apiBaseUrl: String
 ) {
     //private val logger = LoggerFactory.getLogger(ApiProxyService::class.java)
 

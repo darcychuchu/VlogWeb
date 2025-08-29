@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.9.25"
-    kotlin("plugin.spring") version "1.9.25"
+    kotlin("jvm") version "2.2.10"
+    kotlin("plugin.spring") version "2.2.10"
     id("org.springframework.boot") version "3.4.9"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -32,7 +32,7 @@ dependencies {
     //runtimeOnly("com.mysql:mysql-connector-j")
     //testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    implementation("org.apache.httpcomponents.client5:httpclient5:5.4.3")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.5")
     //implementation("org.apache.httpcomponents:httpclient:4.5.13")
 
 }

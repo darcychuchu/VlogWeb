@@ -20,7 +20,7 @@ import java.util.*
 @Service
 class UserServiceImpl(
     private val restTemplate: RestTemplate,
-    @Value("\${api.base-url}") private val apiBaseUrl: String
+    @field:Value("\${api.base-url}") private val apiBaseUrl: String
 ) : UserService {
     ///private val logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
     
