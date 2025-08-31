@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="~{layout :: head(~{::title}, ${VideoItem.description}, ${VideoItem.tags})}">
     <title th:text="${VideoItem.title + ' - 视频网站'}">视频详情 - 视频网站</title>
-    <script src="../static/js/hls.js"></script>
+    <script src="/js/hls.js"></script>
 </head>
 <body class="bg-black text-white">
 <th:block th:replace="~{layout :: layout(~{::div.content})}">
