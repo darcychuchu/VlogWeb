@@ -106,7 +106,7 @@ class ApiService(
         token: String? = null
     ): List<VideoListDto> {
         try {
-            var url = "$apiBaseUrl/videos/charts?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&created_at=$createdAt&order_by=$orderBy"
+            var url = "$apiBaseUrl/charts/filter?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&created_at=$createdAt&order_by=$orderBy"
             if (!cate.isNullOrEmpty()) {
                 url = "${url}&cate=$cate"
             }
