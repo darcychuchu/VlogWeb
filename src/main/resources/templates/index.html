@@ -10,9 +10,9 @@
             <div class="relative mb-8 rounded-lg overflow-hidden h-[600px]">
                 <div class="aspect-w-16 aspect-h-6 bg-gray-800">
                     <!-- 轮播图内容 -->
-                    <div class="swiper-container">
+                    <div class="swiper-container md:h-[600px]" th:if="${movieHotList}" >
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide" th:each="row, stat : ${movieHotList}" th:if="${movieHotList != null}">
+                            <div class="swiper-slide" th:each="row, stat : ${movieHotList}">
                                 <a th:href="@{'/videos/detail/' + ${row.id}}">
                                     <div class="relative w-full h-full">
                                         <img th:src="@{${row.coverUrl}}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${row.title}">
@@ -101,7 +101,7 @@
 
 
             <!-- 视频列表 -->
-            <div class="mb-8" th:if="${movieNewList.size() > 0}">
+            <div class="mb-8" th:if="${movieNewList}">
                 <h2 class="text-2xl font-bold mb-4">最新上映</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${movieNewList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
@@ -128,7 +128,7 @@
 
 
             <!-- 视频列表 -->
-            <div class="mb-8" th:if="${animationList.size() > 0}">
+            <div class="mb-8" th:if="${animationList}">
                 <h2 class="text-2xl font-bold mb-4">最新动漫</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${animationList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
@@ -154,7 +154,7 @@
 
 
             <!-- 视频列表 -->
-            <div class="mb-8" th:if="${tvChineseList.size() > 0}">
+            <div class="mb-8" th:if="${tvChineseList}">
                 <h2 class="text-2xl font-bold mb-4">热播国剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvChineseList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
@@ -177,7 +177,7 @@
                 </div>
             </div>
             <!-- 视频列表 -->
-            <div class="mb-8" th:if="${tvKoreanList.size() > 0}">
+            <div class="mb-8" th:if="${tvKoreanList}">
                 <h2 class="text-2xl font-bold mb-4">热播韩剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvKoreanList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
@@ -200,7 +200,7 @@
                 </div>
             </div>
             <!-- 视频列表 -->
-            <div class="mb-8" th:if="${tvJapaneseList.size() > 0}">
+            <div class="mb-8" th:if="${tvJapaneseList}">
                 <h2 class="text-2xl font-bold mb-4">热播日剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvJapaneseList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
@@ -223,7 +223,7 @@
                 </div>
             </div>
             <!-- 视频列表 -->
-            <div class="mb-8" th:if="${tvAmericanList.size() > 0}">
+            <div class="mb-8" th:if="${tvAmericanList}">
                 <h2 class="text-2xl font-bold mb-4">热播美剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvAmericanList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
@@ -247,9 +247,9 @@
             </div>
 
             <!-- 引入Swiper轮播图 -->
-            <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-            <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-            <script>
+            <link th:if="${movieHotList}" rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+            <script th:if="${movieHotList}" src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+            <script th:if="${movieHotList}">
                 document.addEventListener('DOMContentLoaded', function() {
                     new Swiper('.swiper-container', {
                         loop: true,
