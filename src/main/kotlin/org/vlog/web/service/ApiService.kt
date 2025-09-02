@@ -104,7 +104,7 @@ class ApiService(
         orderBy: Int = 0,
         createdAt: Long = 0L,
         token: String? = null
-    ): List<VideoListDto> {
+    ): PaginatedResponse<VideoListDto>? {
         try {
             var url = "$apiBaseUrl/charts/filter?typed=$typed&page=$page&size=$size&state=$state&valued=$valued&created_at=$createdAt&order_by=$orderBy"
             if (!cate.isNullOrEmpty()) {
@@ -116,18 +116,18 @@ class ApiService(
             if (!token.isNullOrEmpty()) {
                 url = "${url}&token=$token"
             }
-            val responseType = object : ParameterizedTypeReference<ApiResponse<List<VideoListDto>>>() {}
-            val response = restTemplate.exchange<ApiResponse<List<VideoListDto>>>(
+            val responseType = object : ParameterizedTypeReference<ApiResponse<PaginatedResponse<VideoListDto>>>() {}
+            val response = restTemplate.exchange<ApiResponse<PaginatedResponse<VideoListDto>>>(
                 url,
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
                 responseType
             )
-            return response.body?.data ?: emptyList()
+            return response.body?.data
         } catch (e: RestClientException) {
-            return emptyList()
+            return null
         } catch (e: Exception) {
-            return emptyList()
+            return null
         }
     }
 

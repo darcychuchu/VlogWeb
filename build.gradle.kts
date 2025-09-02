@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.vlog.web"
-version = "0.1.62-SERVER-8091-JDK21"
+version = "0.1.71-SERVER-8091-JDK21"
 
 java {
     toolchain {
@@ -19,22 +19,12 @@ repositories {
 }
 
 dependencies {
-    //implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    //implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    //implementation("org.springframework.session:spring-session-data-redis")
-    //testImplementation("org.springframework.boot:spring-boot-starter-test")
-    //testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    ///testImplementation("org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4")
-    //runtimeOnly("com.mysql:mysql-connector-j")
-    //testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     implementation("org.apache.httpcomponents.client5:httpclient5:5.5")
-    //implementation("org.apache.httpcomponents:httpclient:4.5.13")
-
 }
 
 kotlin {

@@ -31,7 +31,7 @@ class HomeController(
                 state = 1,
                 title = "NEW",
                 valued = 1,
-                createdAt = createdTime))
+                createdAt = createdTime)?.items)
 
 
             model.addAttribute("movieHotList", apiService.getVideoCharts(
@@ -39,40 +39,40 @@ class HomeController(
                 state = 1,
                 title = "HOT",
                 valued = 2,
-                createdAt = createdTime))
+                createdAt = createdTime)?.items)
 
 
             model.addAttribute("tvChineseList", apiService.getVideoCharts(
                 typed = 2,
                 state = 1,
                 cate = "74fe8681-e071-499e-9f91-45f0447a8bb2",
-                createdAt = createdTime))
+                createdAt = createdTime)?.items)
 
 
             model.addAttribute("tvKoreanList", apiService.getVideoCharts(
                 typed = 2,
                 state = 1,
                 cate = "065148b9-bc4a-4c05-80e3-230728407bbb",
-                createdAt = createdTime))
+                createdAt = createdTime)?.items)
 
 
             model.addAttribute("tvJapaneseList", apiService.getVideoCharts(
                 typed = 2,
                 state = 1,
                 cate = "a7ba4cf7-0ef0-4eb5-8ecd-17c752c6b7aa",
-                createdAt = createdTime))
+                createdAt = createdTime)?.items)
 
 
             model.addAttribute("tvAmericanList", apiService.getVideoCharts(
                 typed = 2,
                 state = 1,
                 cate = "d1f0f23d-4913-44b2-85d0-f89d41b1baec",
-                createdAt = createdTime))
+                createdAt = createdTime)?.items)
 
             model.addAttribute("animationList", apiService.getVideoCharts(
                 typed = 3,
                 state = 1,
-                createdAt = createdTime))
+                createdAt = createdTime)?.items)
 
             val categories = apiService.getCategories(typed).sortedBy { it.orderSort }
             model.addAttribute("categories", categories)

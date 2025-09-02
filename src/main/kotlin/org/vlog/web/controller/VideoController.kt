@@ -40,11 +40,11 @@ class VideoController(
     fun list(
         model: Model,
         @RequestParam(required = false, defaultValue = "0") typed: Int,
-        @RequestParam(required = false, defaultValue = "1") page: Int = 1,
-        @RequestParam(required = false, defaultValue = "24") size: Int = 24,
-        @RequestParam(required = false, defaultValue = "0") year: Long = 0,
-        @RequestParam(required = false, defaultValue = "5") orderBy: Int = 5,
-        @RequestParam(required = false, defaultValue = "") cate: String = "",
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "24") size: Int,
+        @RequestParam(required = false, defaultValue = "0") year: Long,
+        @RequestParam(required = false, defaultValue = "3") orderBy: Int,
+        @RequestParam(required = false, defaultValue = "") cate: String,
         session: HttpSession
     ): String {
         try {
@@ -97,47 +97,4 @@ class VideoController(
         }
     }
 
-
-    @GetMapping("/charts")
-    fun charts(
-        model: Model,
-        @RequestParam(required = false, defaultValue = "0") typed: Int,
-        @RequestParam(required = false, defaultValue = "0") page: Int = 0,
-        @RequestParam(required = false, defaultValue = "12") size: Int = 12,
-        @RequestParam(required = false, defaultValue = "0") createdAt: Long = 0,
-        @RequestParam(required = false, defaultValue = "0") orderBy: Int = 0,
-        @RequestParam(required = false, defaultValue = "0") state: Int = 0,
-        @RequestParam(required = false, defaultValue = "0") valued: Int = 0,
-        @RequestParam(required = false, defaultValue = "") cate: String = "",
-        @RequestParam(required = false, defaultValue = "") title: String = "",
-        session: HttpSession
-    ): String {
-
-        try {
-            val user = session.getAttribute("user") as? UsersDto
-            val token = user?.accessToken
-
-            val listVideos = apiService.getVideoCharts(typed, page, size, state,
-                valued,cate,title, orderBy,createdAt,token)
-
-            model.addAttribute("listVideos", listVideos)
-
-            // 添加筛选参数
-            model.addAttribute("typed", typed)
-            model.addAttribute("page", page)
-            model.addAttribute("size", size)
-            model.addAttribute("createdAt", createdAt)
-            model.addAttribute("state", state)
-            model.addAttribute("valued", valued)
-            model.addAttribute("orderBy", orderBy)
-            model.addAttribute("cate", cate)
-            model.addAttribute("title", title)
-            return "charts"
-        } catch (e: Exception) {
-            model.addAttribute("errorMessage", "加载视频列表失败，请稍后再试")
-            model.addAttribute("errorDetails", "系统内部错误")
-            model.addAttribute("errorCode", "500")
-            return "error"
-        }
-    }
 }
