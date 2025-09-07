@@ -17,5 +17,7 @@ data class VideosDto(
     var tags: String? = null,
     var author: String? = null,
     var coverUrl: String? = null,
+    var gatherVideoId: String? = null,
+
     var videoPlayList: List<GatherSourcesDto>? = listOf()
 )

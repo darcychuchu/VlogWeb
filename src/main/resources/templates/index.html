@@ -13,7 +13,7 @@
                     <div class="swiper-container md:h-[600px]" th:if="${movieHotList}" >
                         <div class="swiper-wrapper">
                             <div class="swiper-slide" th:each="row, stat : ${movieHotList}">
-                                <a th:href="@{'/videos/detail/' + ${row.id}}">
+                                <a th:href="@{'/videos/detail/' + ${row.gatherVideoId}}">
                                     <div class="relative w-full h-full">
                                         <img th:src="@{${row.coverUrl}}" referrerpolicy="origin" class="w-full h-full object-cover" th:alt="${row.title}">
                                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
@@ -105,7 +105,7 @@
                 <h2 class="text-2xl font-bold mb-4">最新上映</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${movieNewList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                        <a th:href="@{'/videos/detail/' + ${row.gatherVideoId}}">
                             <div class="relative">
                                 <img th:src="@{${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
                                 <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
@@ -132,7 +132,7 @@
                 <h2 class="text-2xl font-bold mb-4">最新动漫</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${animationList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                        <a th:href="@{'/videos/detail/' + ${row.gatherVideoId}}">
                             <div class="relative">
                                 <img th:src="@{${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
                                 <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
@@ -158,7 +158,7 @@
                 <h2 class="text-2xl font-bold mb-4">热播国剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvChineseList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                        <a th:href="@{'/videos/detail/' + ${row.gatherVideoId}}">
                             <div class="relative">
                                 <img th:src="@{${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
                                 <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
@@ -181,7 +181,7 @@
                 <h2 class="text-2xl font-bold mb-4">热播韩剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvKoreanList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                        <a th:href="@{'/videos/detail/' + ${row.gatherVideoId}}">
                             <div class="relative">
                                 <img th:src="@{${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
                                 <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
@@ -204,7 +204,7 @@
                 <h2 class="text-2xl font-bold mb-4">热播日剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvJapaneseList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                        <a th:href="@{'/videos/detail/' + ${row.gatherVideoId}}">
                             <div class="relative">
                                 <img th:src="@{${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
                                 <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>
@@ -227,7 +227,7 @@
                 <h2 class="text-2xl font-bold mb-4">热播美剧</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <div th:each="row : ${tvAmericanList}" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <a th:href="@{'/videos/detail/' + ${row.id}}">
+                        <a th:href="@{'/videos/detail/' + ${row.gatherVideoId}}">
                             <div class="relative">
                                 <img th:src="@{${row.coverUrl}}" class="w-full h-full object-cover" referrerpolicy="origin" th:alt="${row.title}">
                                 <div class="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-sm font-bold" th:text="${row.score}">9.2</div>

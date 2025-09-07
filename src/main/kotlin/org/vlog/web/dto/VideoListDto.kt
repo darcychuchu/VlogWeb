@@ -15,5 +15,6 @@ data class VideoListDto(
     var score: BigDecimal? = null,
     var tags: String? = null,
     var remarks: String? = null,
-    var coverUrl: String? = null
+    var coverUrl: String? = null,
+    var gatherVideoId: String? = null,
 )

@@ -20,7 +20,7 @@ import java.util.*
 @Service
 class UserServiceImpl(
     private val restTemplate: RestTemplate,
-    private val apiBaseUrl: String = "http://127.0.0.1:8190/api/json/v3"
+    private val apiBaseUrl: String = "https://66log.com/api/json/v3"
 ) : UserService {
     ///private val logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
     

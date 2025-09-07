@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate
 ///@CacheConfig(cacheNames = ["apiProxy"])
 class ApiProxyService(
     private val restTemplate: RestTemplate,
-    private val apiBaseUrl: String = "http://127.0.0.1:8190/api/json/v3"
+    private val apiBaseUrl: String = "https://66log.com/api/json/v3"
 ) {
     //private val logger = LoggerFactory.getLogger(ApiProxyService::class.java)
 
