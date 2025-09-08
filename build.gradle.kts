@@ -25,6 +25,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation("org.apache.httpcomponents.client5:httpclient5:5.5")
+    //ip2region
+    implementation("org.lionsoul:ip2region:2.7.0")
 }
 
 kotlin {

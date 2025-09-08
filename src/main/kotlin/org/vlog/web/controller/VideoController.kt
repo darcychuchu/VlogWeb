@@ -1,5 +1,6 @@
 package org.vlog.web.controller
 
+import jakarta.servlet.http.HttpServletRequest
 import org.vlog.web.service.ApiService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.vlog.web.dto.UsersDto
 import jakarta.servlet.http.HttpSession
+import org.vlog.web.utils.AddressUtil
+import org.vlog.web.utils.IpUtil
 
 @Controller
 class VideoController(
@@ -19,12 +22,20 @@ class VideoController(
         @PathVariable id: String,
         @RequestParam(defaultValue = "1") typed: Int,
         model: Model,
-        session: HttpSession
+        session: HttpSession,
+        request: HttpServletRequest
     ): String {
+        val ipStr = IpUtil.getIpString(request)
+        var ipSource: String? = null
+        if(ipStr.isNotEmpty() && ipStr != "unknown"){
+            ipSource = AddressUtil.getAddressInfo(ipStr)["region"].toString().replace("|0","")
+        }
+        val appInfo = "WEB: Detail, ip: $ipStr, ipSource: $ipSource, userAgent: ${request.getHeader("User-Agent")}"
+
         try {
             val user = session.getAttribute("user") as? UsersDto
             val token = user?.accessToken
-            val videoDetail = apiService.getVideoDetail(id=id,typed=typed,token=token) ?: return "error"
+            val videoDetail = apiService.getVideoDetail(id=id,typed=typed,token=token,appInfo=appInfo) ?: return "error"
             model.addAttribute("VideoItem", videoDetail)
             model.addAttribute("appVersion", apiService.getAppVersion())
             return "detail"

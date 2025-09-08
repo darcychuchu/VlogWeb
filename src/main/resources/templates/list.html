@@ -120,15 +120,18 @@
                     </div>
                 </div>
 
-                <!-- 分页 -->
+                <!-- Page -->
                 <div th:if="${paginatedVideos}" class="mt-8 flex justify-center">
                     <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                         <!-- 上一页 -->
-                        <a th:href="@{/list(typed=${typed},page=${paginatedVideos.page > 0 ? paginatedVideos.page : 1},size=${size},year=${year},orderBy=${orderBy},cate=${cate})}"
+                        <a th:href="@{/list(page=${paginatedVideos.page - 1 > 0 ? paginatedVideos.page - 1 : 1},size=${size},typed=${typed},cate=${cate},year=${year},orderBy=${orderBy})}"
                            class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700"
                            th:classappend="${paginatedVideos.page == 1 ? 'opacity-50 cursor-not-allowed' : ''}">
-                            <span class="sr-only">上一页</span>
-                            <i class="fas fa-chevron-left"></i>
+                            <span>
+                                <svg class="h-6 w-6 text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="m12 16l1.4-1.4l-1.6-1.6H16v-2h-4.2l1.6-1.6L12 8l-4 4zm0 6q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/>
+                                </svg>
+                            </span>
                         </a>
 
                         <!-- 页码 -->
@@ -145,8 +148,11 @@
                         <a th:href="@{/list(typed=${typed},page=${paginatedVideos.page + 1 <= paginatedVideos.total ? paginatedVideos.page + 1 : paginatedVideos.total},size=${size},year=${year},orderBy=${orderBy},cate=${cate})}"
                            class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-700 bg-gray-800 text-sm font-medium text-gray-400 hover:bg-gray-700"
                            th:classappend="${paginatedVideos.page == paginatedVideos.total ? 'opacity-50 cursor-not-allowed' : ''}">
-                            <span class="sr-only">下一页</span>
-                            <i class="fas fa-chevron-right"></i>
+                            <span>
+                                <svg class="h-6 w-6 text-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="m12 16l4-4l-4-4l-1.4 1.4l1.6 1.6H8v2h4.2l-1.6 1.6zm0 6q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"/>
+                                </svg>
+                            </span>
                         </a>
                     </nav>
                 </div>

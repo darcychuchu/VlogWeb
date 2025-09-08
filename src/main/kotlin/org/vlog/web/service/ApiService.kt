@@ -138,13 +138,12 @@ class ApiService(
      * @param token 用户token（可选）
      * @return 搜索结果列表
      */
-    fun getVideoDetail(id: String,typed: Int,token: String? = null): VideoDetailDto? {
+    fun getVideoDetail(id: String,typed: Int,token: String? = null,appInfo: String): VideoDetailDto? {
         try {
             val responseType = object : ParameterizedTypeReference<ApiResponse<VideoDetailDto>>() {}
-            val url = if (token.isNullOrEmpty()) {
-                "$apiBaseUrl/videos/detail/$id?typed=$typed"
-            } else {
-                "$apiBaseUrl/videos/detail/$id?typed=$typed&token=$token"
+            var url = "$apiBaseUrl/videos/detail/$id?typed=$typed&app_info=$appInfo"
+            if (!token.isNullOrEmpty()) {
+                url = "$url&token=$token"
             }
             val response = restTemplate.exchange(
                 url,
