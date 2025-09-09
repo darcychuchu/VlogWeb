@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.vlog.web.dto.UsersDto
 import jakarta.servlet.http.HttpSession
-import org.vlog.web.utils.AddressUtil
-import org.vlog.web.utils.IpUtil
+import org.vlog.web.util.AddressUtil
+import org.vlog.web.util.IpUtil
 
 @Controller
 class VideoController(
@@ -25,12 +25,16 @@ class VideoController(
         session: HttpSession,
         request: HttpServletRequest
     ): String {
-        val ipStr = IpUtil.getIpString(request)
-        var ipSource: String? = null
-        if(ipStr.isNotEmpty() && ipStr != "unknown"){
-            ipSource = AddressUtil.getAddressInfo(ipStr)["region"].toString().replace("|0","")
+        var appInfo: String? = null
+        val deviceStr = IpUtil.getDevice(request)
+        if (deviceStr != "Unknown"){
+            val ipStr = IpUtil.getIpString(request)
+            var ipSource: String? = null
+            if(ipStr.isNotEmpty() && ipStr != "unknown"){
+                ipSource = AddressUtil.getAddressInfo(ipStr)["region"].toString().replace("|0","")
+            }
+            appInfo = "device: $deviceStr, ip: $ipStr, ipSource: $ipSource, userAgent: ${request.getHeader("User-Agent")}"
         }
-        val appInfo = "WEB: Detail, ip: $ipStr, ipSource: $ipSource, userAgent: ${request.getHeader("User-Agent")}"
 
         try {
             val user = session.getAttribute("user") as? UsersDto

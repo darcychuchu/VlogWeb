@@ -1,4 +1,4 @@
-package org.vlog.web.utils
+package org.vlog.web.util
 
 import org.lionsoul.ip2region.xdb.Searcher
 import java.io.IOException
@@ -11,7 +11,7 @@ object AddressUtil {
     @Suppress("UNREACHABLE_CODE")
     fun getAddressInfo(ip: String): Map<String, Any> {
         val searcher: Searcher = try {
-            Searcher.newWithFileOnly("/data/ip2region.xdb")
+            Searcher.newWithFileOnly("/home/admin/ip2region.xdb")
         } catch (e: IOException) {
             return mapOf("region" to "")
         }

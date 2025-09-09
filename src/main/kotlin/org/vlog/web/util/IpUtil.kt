@@ -1,12 +1,43 @@
-package org.vlog.web.utils
+package org.vlog.web.util
 
 import jakarta.servlet.http.HttpServletRequest
+import java.util.Locale
+import java.util.regex.Pattern
 import kotlin.text.equals
 import kotlin.text.indexOf
 import kotlin.text.isNullOrEmpty
 import kotlin.text.trim
 
 object IpUtil {
+
+    internal class DevicePattern(val name: String, patternInfo: String) {
+        private val pattern: Pattern = Pattern.compile(patternInfo)
+        fun matches(s: String?): Boolean? {
+            return s?.let { pattern.matcher(it).find() }
+        }
+    }
+
+    private var devicePatterns = arrayOf(
+        DevicePattern("Windows", "\\Wwindows\\snt\\W"),  //
+        DevicePattern("macOS", "\\Wmacintosh\\W"),  //
+        DevicePattern("Android", "\\Wandroid\\W"),  //
+        DevicePattern("iPhone", "\\Wiphone\\W"),  //
+        DevicePattern("iPad", "\\Wipad\\W"),  //
+        DevicePattern("Linux", "\\Wlinux\\W")
+    )
+
+    fun getDevice(request: HttpServletRequest): String {
+        var ua = request.getHeader("USER-AGENT")
+        if (ua != null) {
+            ua = ua.lowercase(Locale.getDefault())
+            for (device in devicePatterns) {
+                if (device.matches(ua) == true) {
+                    return device.name
+                }
+            }
+        }
+        return "Unknown"
+    }
 
     fun getIpString(request: HttpServletRequest): String {
         val ip = getClientIpAddr(request)
