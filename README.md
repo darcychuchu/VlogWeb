@@ -224,10 +224,6 @@ cd VlogWeb
 
 ## 相关项目
 
-### VlogApp - Android 移动应用
-
-[VlogApp](https://github.com/darcychuchu/VlogApp) 是本项目的配套移动应用，基于Jetpack Compose开发，提供原生Android体验。
-
 ### VlogFile - 文件服务器
 
 [VlogFile](https://github.com/darcychuchu/VlogFile) 是专门用于处理和提供视频相关媒体资源的文件服务器，旨在解决API服务器负载问题。通过分离文件服务和API服务，有效提高了整体系统性能。
